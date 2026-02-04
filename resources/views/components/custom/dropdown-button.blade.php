@@ -9,7 +9,7 @@
     <ul class="p-2 text-sm text-body font-medium" aria-labelledby="dropdownDefaultButton">
       @foreach ($menuItems as $title => $link)
       <li>
-        <a href="{{ route('person.create') }}" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">
+        <a href="{{route($link)}}" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">
           {{ $title }}
         </a>
       </li>

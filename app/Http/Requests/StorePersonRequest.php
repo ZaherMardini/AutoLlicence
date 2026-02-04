@@ -22,10 +22,10 @@ class StorePersonRequest extends FormRequest
     public function rules(): array
     {
       return [
-        'name' => ['required', 'string', 'min:3', 'max:10'],
-        'email' => ['email'],
+        'name' => ['required', 'string', 'min:3', 'max:20'],
+        'email' => ['email', 'unique:people,email'],
         'phone' => ['string'],
-        'national_no' => ['string'],
+        'national_no' => ['string', 'unique:people,national_no'],
         'address' => ['string'],
         'gender' => ['required'],
         'file' => ['image', 'mimes:png,jpg'],

@@ -21,9 +21,7 @@
                   <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Applications') }}
                   </x-nav-link>
-                  <x-nav-link :href="route('person.index')" :active="request()->routeIs('person.index')">
-                    {{ __('People') }}
-                  </x-nav-link>
+                  <x-custom.dropdown-button :menuItems="Menus::$people['items']" :title="Menus::$people['title']"/>
                   <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Drivers') }}
                   </x-nav-link>

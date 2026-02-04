@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
   Route::get('/people/edit', [PersonController::class, 'edit'])->name('person.edit');
   Route::post('/people/store', [PersonController::class, 'store'])->name('person.store');
   Route::post('/people/update', [PersonController::class, 'update'])->name('person.update');
+  Route::get('/people/search', [PersonController::class, 'search'])->name('person.search');
+  Route::get('/people/find', [PersonController::class, 'findFirst'])->name('person.find');
+  Route::get('/people/show', [PersonController::class, 'show'])->name('person.show');
   // Person
 });
 
