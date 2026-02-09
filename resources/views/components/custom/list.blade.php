@@ -5,7 +5,7 @@
   }"
   @items-updated.window = "items = event.detail"
   >
-  @include('components.custom.search')
+  <x-custom.search/>
   <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
       <table class="w-full text-sm text-left rtl:text-right text-white">
           <thead class="bg-gray-600 border-b border-default">

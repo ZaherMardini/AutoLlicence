@@ -1,6 +1,6 @@
-@props(['mode' => 'search'])
+@props(['filter' => true])
 @php
-  $mode === 'search' ? $routeName = 'person.search' : $routeName = 'person.find';
+  $filter ? $routeName = 'person.search' : $routeName = 'person.find';
 @endphp
 <div
   x-data="{
@@ -28,29 +28,10 @@
             <li class="p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md"
               @click="
               prop = 'id';
-              label = 'ID';
               open = false;
               "
             >
               ID
-            </li>
-            <li class="p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md"
-              @click="
-              prop = 'name';
-              label = 'Name';
-              open = false;
-              "
-            >
-              Name
-            </li>
-            <li class="p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md"
-              @click="
-              prop = 'national_no';
-              label = 'National number';
-              open = false;
-              "
-            >
-              National number
             </li>
           </ul>
       </div>

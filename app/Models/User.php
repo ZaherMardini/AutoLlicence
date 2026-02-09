@@ -11,6 +11,14 @@ class User extends Authenticatable
 {
   use HasFactory, Notifiable;
 
+  public static $columns =
+  [
+    'User ID'     => 'user_id',
+    'User name'   => 'username',
+    'Email'       => 'email',
+    'Person ID'   => 'person_id',
+    'Person name' => 'name',
+  ];
   public function person(){
     return $this->belongsTo(Person::class);
   }
