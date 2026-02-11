@@ -22,11 +22,9 @@
                     {{ __('Applications') }}
                   </x-nav-link>
                   <x-custom.dropdown-button :menuItems="Menus::$people['items']" :title="Menus::$people['title']"/>
+                  <x-custom.dropdown-button :menuItems="Menus::$users['items']" :title="Menus::$users['title']"/>
                   <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Drivers') }}
-                  </x-nav-link>
-                  <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Users') }}
                   </x-nav-link>
                 </div>
             </div>

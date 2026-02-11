@@ -1,5 +1,8 @@
 <x-app-layout>
-  {{-- <x-custom.list :models="collect()" :columns="$columns"/> --}}
-  <x-custom.list :models="$people" :columns="$columns"/>
-  {{-- {{ $people->links() }} --}}
+  <x-custom.list 
+  :items="$people" 
+  :columns="$columns" 
+  :filter="true"
+  :searchBy="$searchBy" 
+  :searchRoutes="$searchRoutes"/>
 </x-app-layout>

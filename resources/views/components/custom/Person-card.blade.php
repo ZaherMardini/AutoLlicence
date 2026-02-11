@@ -1,6 +1,11 @@
-@props(['countries', 'mode' => 'new'])
+@props(['mode' => 'new'])
 @php
-  $modesLable = ['new' => 'Add new person', 'edit' => 'Update person info', 'read' => 'Show person info'];  
+  use App\Models\Person;
+  use App\Models\Country;
+  $countries = Country::get();
+  $modesLable = ['new' => 'Add new person', 'edit' => 'Update person info', 'read' => 'Show person info']; 
+  $searchRoutes = Person::$searchRoutes; 
+  $searchBy = Person::searchBy();
 @endphp
 <div class="flex flex-col justify-between bg-black p-6 border border-default rounded-base w-250"
     x-data="{
@@ -9,8 +14,6 @@
     get isReadMode(){return this.mode === 'read'},
     get isEditMode(){return this.mode === 'edit'},
     get isNewMode() {return this.mode === 'new'},
-    get isMale()    {return this.person.gender == 'male'},
-    get isFemale()  {return !this.isMale},
     img:{
       male: '/images/defaults/male.png',
       female: '/images/defaults/female.png',
@@ -43,7 +46,7 @@
   }"
   @items-updated.window = "person = event.detail"
 >
-  <x-custom.search mode="find" x-bind:hidden="isNewMode"/>
+  <x-custom.search :searchBy="$searchBy" :filter="false" :routes="$searchRoutes" x-bind:hidden="isNewMode"/>
   <h4 class="m-2 text-white">Person_ID: <span x-text="person?.id"></span></h4>
   <h4 class="m-2 text-white">Mode: {{ $modesLable[$mode] }}</h4>
   <div class="flex flex-1 p-3 bg-gray-500">

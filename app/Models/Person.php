@@ -20,7 +20,19 @@ class Person extends Model
     'Address' => 'address',
     'Date of birth' => 'date_of_birth',
   ];
-  protected $guarded = [];
+  public static $searchRoutes = [
+    'find' => 'person.find',
+    'filter' => 'person.filter'
+    ];
+
+  public static function searchBy()
+    {
+      return collect(self::$columns)
+          ->except(['Gender', 'Address', 'Date of birth'])
+          ->toArray();
+    }
+    protected $guarded = [];
+  
   public function applications(){
     return $this->hasMany(Application::class);
   }

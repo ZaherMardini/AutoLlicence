@@ -13,6 +13,15 @@ class Menus{
       'Edit Person info' => 'person.edit',
     ]
   ];
+  public static $users = [
+    'title' => 'Users',
+    'items' => [
+      'Users info'     => 'user.index',
+      'New user'       => 'user.create',
+      'Show user info' => 'user.show',
+      'Edit user info' => 'user.edit',
+    ]
+  ];
   public static function countries(){
     return Country::get();
   }

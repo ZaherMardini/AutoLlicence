@@ -1,4 +1,9 @@
 <x-app-layout>
-  {{ dd($routes) }}
-  <x-custom.list :items="$users", :columns="$columns", :searchRoutes="$routes", :searchBy="$searchBy"/>
+  {{-- {{ dd($searchBy) }} --}}
+  <x-custom.list 
+  :items="$users" 
+  :columns="$columns" 
+  :filter="true"
+  :searchBy="$searchBy" 
+  :searchRoutes="$searchRoutes"/>
 </x-app-layout>

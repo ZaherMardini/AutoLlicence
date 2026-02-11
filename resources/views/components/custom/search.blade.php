@@ -1,16 +1,16 @@
-@props(['filter' => true])
+@props(['filter' => true, 'searchBy', 'routes'])
 @php
-  $filter ? $routeName = 'person.search' : $routeName = 'person.find';
+  $filter ? $routeName = $routes['filter'] : $routeName = $routes['find'];
 @endphp
 <div
   x-data="{
-    query: '',
+    value: '',
     search(){
-      axios.get('{{route($routeName)}}', { params: { search: this.query, prop: this.prop } })
+      axios.get('{{route($routeName)}}', { params: { value: this.value, prop: this.prop } })
       .then(response => { $dispatch('items-updated', response.data) })
     },
     open: false,
-    prop: 'id',
+    prop: @js(array_first($searchBy)),
     label: 'All categories',
   }"
   {{$attributes}}
@@ -25,19 +25,22 @@
       </button>
       <div x-show="open" @click.outside="open = false" id="dropdown" class="absolute z-10 bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44">
           <ul class="p-2 text-sm text-body font-medium" aria-labelledby="dropdown-button">
-            <li class="p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md"
-              @click="
-              prop = 'id';
-              open = false;
-              "
-            >
-              ID
-            </li>
+            @foreach ($searchBy as $title=>$key)
+              <li class="p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md"
+                @click="
+                prop = '{{ $key }}';
+                open = false;
+                "
+                >
+                {{ $title }}
+              </li>
+            @endforeach
           </ul>
       </div>
       <input 
-      type="search" id="search-dropdown" id="input-group-1" class="px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm focus:ring-brand focus:border-brand block w-full placeholder:text-body rounded-r-[12px]" placeholder="Search..." required
-        x-model="query" @input.debounce.500ms="search">
+        type="search" id="search-dropdown" id="input-group-1" class="px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm focus:ring-brand focus:border-brand block w-full placeholder:text-body rounded-r-[12px]"
+        placeholder="Search..." required
+        x-model="value" @input.debounce.500ms="search"/>
     </div>
   </form>  
 </div>

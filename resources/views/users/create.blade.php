@@ -2,7 +2,7 @@
   <div x-data="{person: ''}"
   @items-updated.window = "person = event.detail"
   >
-  <form method="POST" action="{{ route('register') }}">
+  <form method="POST" action="{{ route('user.store') }}">
     @csrf
     
     <!-- Name -->
@@ -44,24 +44,22 @@
             
             <input type="hidden" name="person_id" x-bind:value="person ? person.id : ''"/>
             <x-input-error :messages="$errors->get('person_id')" class="mt-2" />
-            <div class="flex gap-3 items-center ml-5">
-              <x-input-label value="Activate user"/>        
-              <input name="isActive" type="radio" id="active" value="1" checked/>
-              <x-input-label for="active" value="Yes"/>        
-              <input name="isActive" type="radio" id="inactive" value="0"/>
-              <x-input-label for="inactive" value="No"/>        
+              <div class="flex gap-3 items-center ml-5">
+                <x-input-label value="Activate user"/>        
+                <input name="isActive" type="radio" id="active" value="1" checked/>
+                <x-input-label for="active" value="Yes"/>        
+                <input name="isActive" type="radio" id="inactive" value="0"/>
+                <x-input-label for="inactive" value="No"/>        
+                <x-input-error :messages="$errors->get('isActive')" class="mt-2" />
             </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
 
             <x-primary-button class="ms-4">
-                {{ __('Register') }}
+                {{ __('Submit') }}
             </x-primary-button>
         </div>
-    </form>
-  </x-guest-layout>
-  <x-custom.person-card mode="read"/>
+      </form>
+    </x-guest-layout>
+    <x-custom.person-card mode="read"/>
 </div>

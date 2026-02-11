@@ -2,7 +2,9 @@
 namespace App\Global;
 
 class Methods{
-  public static function collectCustomQueryResults(array $columns, array $items){
+  public static function collectQueryResults(array $columns, array $items){
+    // dump($columns);
+    // dd($items);
     $result = [];
     $results = [];
     foreach ($items as $item) {
