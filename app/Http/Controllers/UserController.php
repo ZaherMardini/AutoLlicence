@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
   public function filter(Request $request){
-    $this->service->filter($request);
+    return $this->service->filter($request);
   }
   public function findFirst(Request $request){
     $user = User::where($request['prop'],'like', '%' . $request['query'] . '%')->first();
