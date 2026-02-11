@@ -1,6 +1,9 @@
 @props(['filter' => true, 'searchBy', 'routes'])
 @php
+$routeName = 'person.index';
+if($routes && $searchBy){
   $filter ? $routeName = $routes['filter'] : $routeName = $routes['find'];
+}
 @endphp
 <div
   x-data="{

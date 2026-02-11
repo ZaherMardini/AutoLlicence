@@ -9,4 +9,9 @@ class ApplicationType extends Model
 {
     /** @use HasFactory<\Database\Factories\ApplicationTypeFactory> */
     use HasFactory;
+    public static $columns = [
+      'ID'    => 'id',
+      'Title' => 'title',
+      'Fee ($)'   => 'fee',
+    ];
 }

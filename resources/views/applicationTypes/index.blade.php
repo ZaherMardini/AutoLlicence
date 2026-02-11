@@ -1,0 +1,9 @@
+<x-app-layout>
+  <x-custom.list 
+  :columns="$columns"
+  :items="$items" 
+  :searchBy="[]"
+  :searchRoutes="[]" 
+  :enableSearch="false"
+  />
+</x-app-layout>

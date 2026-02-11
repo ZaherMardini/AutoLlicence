@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationTypesController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -39,6 +40,10 @@ Route::middleware('auth')->group(function () {
   Route::post('/users/update/{user}', [UserController::class, 'update'])->name('user.update');
   Route::get('/users/show',           [UserController::class, 'show'])->name('user.show');
   // User
+
+  // Application Types
+  Route::get('/applicationTypes', [ApplicationTypesController::class, 'index'])->name('applicationTypes.index');
+  // Application Types
   });
   Route::post('/users/store',         [UserController::class, 'store'])->name('user.store');
   Route::get('/users/create',         [UserController::class, 'create'])->name('user.create');

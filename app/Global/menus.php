@@ -4,6 +4,12 @@ namespace App\Global;
 use App\Models\Country;
 
 class Menus{
+  public static $applications = [
+    'title' => 'Applications',
+    'items' => [
+      'Application Types' => 'applicationTypes.index',
+    ]
+  ];
   public static $people = [
     'title' => 'people',
     'items' => [
