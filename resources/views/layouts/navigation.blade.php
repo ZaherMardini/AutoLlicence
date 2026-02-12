@@ -18,9 +18,9 @@
                   <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                   </x-nav-link>
-                  <x-custom.dropdown-button :menuItems="Menus::$applications['items']" :title="Menus::$applications['title']"/>
-                  <x-custom.dropdown-button :menuItems="Menus::$people['items']" :title="Menus::$people['title']"/>
-                  <x-custom.dropdown-button :menuItems="Menus::$users['items']" :title="Menus::$users['title']"/>
+                  <x-custom.dropdown-button :menuItems="Menus::$applications['options']" :title="Menus::$applications['title']"/>
+                  <x-custom.dropdown-button :menuItems="Menus::$people['options']" :title="Menus::$people['title']"/>
+                  <x-custom.dropdown-button :menuItems="Menus::$users['options']" :title="Menus::$users['title']"/>
                   <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Drivers') }}
                   </x-nav-link>

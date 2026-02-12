@@ -7,7 +7,3 @@ namespace App\Enums;
     case edit = 'edit';
     case new = 'new';
   };
-  enum gender:string {
-    case male = 'male';
-    case female = 'female';
-  }

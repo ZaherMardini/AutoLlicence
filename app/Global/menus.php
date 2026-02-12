@@ -6,13 +6,14 @@ use App\Models\Country;
 class Menus{
   public static $applications = [
     'title' => 'Applications',
-    'items' => [
+    'options' => [
       'Application Types' => 'applicationTypes.index',
+      'New local driving license' => 'ldl.index',
     ]
   ];
   public static $people = [
     'title' => 'people',
-    'items' => [
+    'options' => [
       'People info'      => 'person.index',
       'New person'       => 'person.create',
       'Show Person info' => 'person.show',
@@ -21,7 +22,7 @@ class Menus{
   ];
   public static $users = [
     'title' => 'Users',
-    'items' => [
+    'options' => [
       'Users info'     => 'user.index',
       'New user'       => 'user.create',
       'Edit user info' => 'profile.edit',

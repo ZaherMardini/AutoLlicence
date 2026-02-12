@@ -3,7 +3,8 @@ namespace App\Enums;
 
 enum ApplicationStatus:string
 {
-  case Pending   = 'new';
+  case New   = 'new';
+  case Pending   = 'pending';
   case Cancelled = 'cancelled';
   case Completed = 'completed';
 }

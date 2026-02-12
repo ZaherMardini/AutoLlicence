@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationTypesController;
+use App\Http\Controllers\LocalLicenseController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -41,15 +42,18 @@ Route::middleware('auth')->group(function () {
   Route::get('/users/show',           [UserController::class, 'show'])->name('user.show');
   // User
 
-  // Application Types
-  Route::get('/applicationTypes', [ApplicationTypesController::class, 'index'])->name('applicationTypes.index');
-  // Application Types
+  // Application Types & LDL
+  Route::get('/applicationTypes',    [ApplicationTypesController::class, 'index'])->name('applicationTypes.index');
+  Route::get('/localLicenses',       [LocalLicenseController::class, 'index'])->name('localLicense.index');
+  Route::get('/localLicenses/create',[LocalLicenseController::class, 'create'])->name('localLicense.create');
+  Route::post('/localLicenses/store',[LocalLicenseController::class, 'store'])->name('localLicense.store');
+  // Application Types & LDL
   });
   Route::post('/users/store',         [UserController::class, 'store'])->name('user.store');
   Route::get('/users/create',         [UserController::class, 'create'])->name('user.create');
   Route::get('/users/filter',         [UserController::class, 'filter'])->name('user.filter');
   Route::get('/users/find',           [UserController::class, 'findFirst'])->name('user.find');
-  Route::get('/people/filter', [PersonController::class, 'filter'])->name('person.filter');
-  Route::get('/people/find', [PersonController::class, 'findFirst'])->name('person.find');
+  Route::get('/people/filter',        [PersonController::class, 'filter'])->name('person.filter');
+  Route::get('/people/find',          [PersonController::class, 'findFirst'])->name('person.find');
   
   require __DIR__.'/auth.php';
