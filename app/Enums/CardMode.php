@@ -6,4 +6,5 @@ namespace App\Enums;
     case read = 'read';
     case edit = 'edit';
     case new = 'new';
+    case locked = 'locked';
   };

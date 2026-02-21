@@ -1,13 +1,10 @@
-@props(['items', 'columns', 'filter', 'searchBy', 'searchRoutes', 'enableSearch' => false])
+@props(['items', 'columns'])
 <div
   x-data="{
     items: @js($items),
   }"
   @items-updated.window = "items = event.detail"
   >
-  @if ($enableSearch)
-    <x-custom.search :filter="$filter" :searchBy="$searchBy" :routes="$searchRoutes"/>
-  @endif
   <div class="mx-10 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
       <table class="w-full text-sm text-left rtl:text-right text-white">
           <thead class="bg-gray-600 border-b border-default">

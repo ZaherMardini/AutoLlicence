@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\ApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LocalLicence extends Model
 {
@@ -20,6 +23,7 @@ class LocalLicence extends Model
       'Application ID' => 'application_id', 
       'Passed tests' => '',
       'Status' => 'status',
+      'Options' => 'testWithLicenceID',
     ];
     public static $searchRoutes = ['find'=>'localLicence.find', 'filter'=>'localLicence.filter'];
     public static function numericKeys() {
@@ -42,17 +46,19 @@ class LocalLicence extends Model
       ];
     }
     public static function isUniqueApplication(int $person_id, int $class_id){
-      $count = LocalLicence::
+      $exists = LocalLicence::
       join('applications', 'applications.id', '=', 'local_licences.application_id')
-      ->join('people', 'people.id', '=', 'applications.person_id')
-      ->select(
-        'local_licences.id',
-        'people.id as person_id',
-        'local_licences.licence_class_id',
-      )->where('people.id', $person_id)
+      ->where('local_licences.person_id', $person_id)
       ->where('local_licences.licence_class_id', $class_id)
-      ->count();
-      return $count === 0;
+      ->where(function($query){
+        $query->where('applications.status', ApplicationStatus::New->value)
+              ->orWhere('applications.status', ApplicationStatus::Completed->value);
+      })
+      ->exists();
+      return !$exists;
+    }
+    public function licenceClass(){
+      return $this->belongsTo(LicenceClass::class);
     }
     protected $casts = [
       'created_at' => 'date:Y-m-d',

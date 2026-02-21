@@ -21,7 +21,10 @@ class PersonController extends Controller
     return $this->service->index();
   }
   public function show(){
-    return view('people.person', ['mode' => CardMode::read->value]);
+    $searchBy = Person::searchBy();
+    $searchRoutes = Person::$searchRoutes;
+    $mode = CardMode::read->value;
+    return view('people.person', compact('searchBy','searchRoutes','mode'));
   }
   public function create(){
     return view('people.person', ['mode' => CardMode::new->value]);

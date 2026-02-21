@@ -31,7 +31,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="flex justify-center align-center">
                 {{ $slot }}
             </main>
         </div>

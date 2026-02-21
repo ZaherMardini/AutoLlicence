@@ -42,7 +42,7 @@ class StoreLocalLicenceRequest extends FormRequest
         if (! $isUniqueApplication) {
           $validator->errors()->add(
             'person_id',
-            'This person already has an active application for this service.'
+            'This person already has an active or completed application for this service.'
           );
         }
     });

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CardMode;
 use App\Global\Methods;
 use App\Http\Requests\StoreLocalLicenceRequest;
+use App\Models\LocalLicence;
+use App\Models\Person;
 use App\Services\LocalLicenceService;
 use Illuminate\Http\Request;
 
@@ -17,7 +20,11 @@ class LocalLicenceController extends Controller
     return $this->service->index();
   }
   public function create(){
-    return view('LocalLicence.create');  
+    $searchBy = Person::searchBy();
+    $searchRoutes = Person::$searchRoutes;
+    $mode = CardMode::new->value;
+    return view('LocalLicence.create', 
+    compact('mode','searchBy','searchRoutes'));  
   }
   public function store(StoreLocalLicenceRequest $request){
     return $this->service->store($request);

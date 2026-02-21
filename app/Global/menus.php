@@ -32,4 +32,12 @@ class Menus{
       'Edit user info' => 'profile.edit',
     ]
   ];
+  public static $tests = [
+    'title' => 'Schedule tests',
+    'options' => [
+      'Vision test'  => 'appointments.create',
+      // 'Written test' => 'appointments.create',
+      // 'Street test'  => 'appointments.create',
+    ]
+  ];
 }

@@ -3,7 +3,12 @@
   use App\Models\Country;
   use App\Enums\CardMode;
   $countries = Country::get();
-  $modesLable = [CardMode::new->value => 'Add new person', CardMode::edit->value => 'Update person info', CardMode::read->value => 'Show person info']; 
+  $modesLable = [
+      CardMode::new->value => 'Add new person',
+      CardMode::edit->value => 'Update person info',
+      CardMode::read->value => 'Show person info',
+      CardMode::locked->value => 'Selected person info'
+  ]; 
   $searchRoutes = Person::$searchRoutes; 
   $searchBy = Person::searchBy();
 @endphp
@@ -47,7 +52,6 @@
   }"
   @items-updated.window = "person = event.detail"
 >
-  <x-custom.search :searchBy="$searchBy" :filter="false" :routes="$searchRoutes" x-bind:hidden="isNewMode"/>
   <h4 class="m-2 text-white">Person_ID: <span x-text="person?.id"></span></h4>
   <h4 class="m-2 text-white">Mode: {{ $modesLable[$mode] }}</h4>
   <div class="flex flex-1 p-3 bg-gray-500">

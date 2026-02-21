@@ -12,6 +12,7 @@ use App\Models\LocalLicence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Collection\Collection;
 
 class LocalLicenceService{
   public static function baseQuery()
@@ -31,6 +32,11 @@ class LocalLicenceService{
       'licence_classes.title as licence_class',
       'local_licences.created_at'
     );
+  }
+  public function addOptions(Collection $items){
+    foreach ($items as $item) {
+      $item['options'] = '<i class="fa-solid fa-ellipsis-vertical text-white text-xl"></i>';
+    }
   }
   public function index(){
     $items = self::baseQuery()->get();
@@ -52,10 +58,9 @@ class LocalLicenceService{
       ];
       $application = Application::create($applicationProps);
       $info['application_id'] = $application['id'];
-      unset($info['person_id']);
       LocalLicence::create($info);
       });
-      return redirect()->route('applications.index');
+      return redirect()->route('LocalLicence.index');
   }
   public static function filter(Request $request){
     return Methods::filter(self::baseQuery(), $request, LocalLicence::searchBy(), LocalLicence::numericKeys());

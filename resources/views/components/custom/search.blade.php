@@ -1,4 +1,4 @@
-@props(['filter' => true, 'searchBy', 'routes'])
+@props(['filter' => true, 'searchBy', 'routes', 'initial_id' => ''])
 @php
 $routeName = 'person.index';
 if($routes && $searchBy){
@@ -7,7 +7,7 @@ if($routes && $searchBy){
 @endphp
 <div
   x-data="{
-    value: '',
+    value: @js($initial_id ?: ''),
     search(){
       axios.get('{{route($routeName)}}', { params: { value: this.value, searchKey: this.searchKey } })
       .then(response => { $dispatch('items-updated', response.data) })
@@ -16,6 +16,7 @@ if($routes && $searchBy){
     searchKey: @js(array_first($searchBy)),
     label: 'All categories',
   }"
+  x-init="search()"
   {{$attributes}}
 >
   <form class="max-w-2xl mx-auto m-3">

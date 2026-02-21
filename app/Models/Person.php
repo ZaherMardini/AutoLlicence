@@ -45,6 +45,9 @@ class Person extends Model
   public function applications(){
     return $this->hasMany(Application::class);
   }
+  public function localLicenceApplication(){
+    return $this->hasMany(LocalLicence::class);
+  }
   public function deleteImage(): void
 {
   if (

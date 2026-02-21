@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicationTypesController;
 use App\Http\Controllers\LocalLicenceController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestAppointmentController;
 use App\Http\Controllers\UserController;
 use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,14 @@ Route::middleware('auth')->group(function () {
   Route::get('/applications/create', [ApplicationsController::class, 'create'])->name('applications.create');
   Route::post('/applications', [ApplicationsController::class, 'store'])->name('applications.store');
   // Applications
+  
+  // Test appointments
+  Route::get('/appointments',                     [TestAppointmentController::class, 'index'] )->name('appointments.index');
+  Route::get('/appointments/{localLicence}/create', [TestAppointmentController::class, 'create'])->name('appointments.create');
+  Route::post('/appointments/{licence_id}',       [TestAppointmentController::class, 'store'] )->name('appointments.store');
+  Route::get('/appointments/{licence_id}/edit',   [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
+  Route::post('/appointments/{licence_id}/update',[TestAppointmentController::class, 'update'])->name('appointments.update');
+  // Test appointments
   });
   Route::get('/users/filter',         [UserController::class, 'filter'])->name('user.filter');
   Route::get('/users/find',           [UserController::class, 'findFirst'])->name('user.find');
