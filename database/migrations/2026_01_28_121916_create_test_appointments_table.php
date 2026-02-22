@@ -24,6 +24,8 @@ return new class extends Migration
           $table->date('appointment_date')->nullable(false);
           $table->decimal('paid_fees', 4,1)->nullable(false);
           $table->timestamps();
+
+          // $table->unique(['test_type_id', 'person_id', 'local_licence_id', 'isLocked']); where isLocked = false
         });
     }
 

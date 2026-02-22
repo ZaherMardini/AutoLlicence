@@ -47,7 +47,7 @@ class LocalLicenceService{
   }
   public function store(StoreLocalLicenceRequest $request){
     DB::transaction(function () use($request) {
-      $type = ApplicationType::findOrFail(ApplicationTypes::newlicence->value);
+      $type = ApplicationType::findOrFail(ApplicationTypes::NewLocalLicence->value);
       $info = $request->validated();
       $applicationProps = [
         'application_type_id' => $type['id'],

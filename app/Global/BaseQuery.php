@@ -14,6 +14,7 @@ class BaseQuery{
     ->join('licence_classes', 'licence_classes.id', 'local_licences.licence_class_id')
     ->select(
       'test_appointments.id as id',
+      'people.id as person_id',
       'people.name',
       'test_types.title as test_type',
       'licence_classes.title as class',

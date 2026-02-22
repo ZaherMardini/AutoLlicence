@@ -19,7 +19,20 @@ class TestAppointment extends Model
     'Appointment Date' => 'appointment_date',
     'Paid fees' => 'paid_fees'
   ];
-  // public function testType(){
-  //   return $this->belongsTo(TestType::class);
-  // }
+  public static function paidFees(int $testTypeId, int $applicationTypeId){
+      return TestType::find($testTypeId)['fees'] + ApplicationType::find($applicationTypeId)['fees'];
+  }
+  public static function isUniqueApplication(int $personId, int $local_licence_id, int $testTypeId){
+    // dd([$personId, $local_licence_id, $testTypeId]);
+    $result = TestAppointment::
+    where('person_id', $personId)->
+    where('test_type_id', $testTypeId)->
+    where('local_licence_id', $local_licence_id)->
+    where('isLocked', false)
+    ->exists();
+    return !$result;
+  }
+  public static function activeAppointmentExists(int $personId){
+    return TestAppointment::where('person_id', $personId)->where('isLocked', false)->exists();
+  }
 }

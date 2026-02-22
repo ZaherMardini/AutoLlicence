@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
   
   // Test appointments
   Route::get('/appointments',                     [TestAppointmentController::class, 'index'] )->name('appointments.index');
-  Route::get('/appointments/{localLicence}/create', [TestAppointmentController::class, 'create'])->name('appointments.create');
+  Route::get('/appointments/{localLicence}/{testType}/create', [TestAppointmentController::class, 'create'])->name('appointments.create');
   Route::post('/appointments/{licence_id}',       [TestAppointmentController::class, 'store'] )->name('appointments.store');
   Route::get('/appointments/{licence_id}/edit',   [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
   Route::post('/appointments/{licence_id}/update',[TestAppointmentController::class, 'update'])->name('appointments.update');

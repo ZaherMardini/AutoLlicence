@@ -1,18 +1,19 @@
-@php
-  use App\Enums\CardMode;
-@endphp
-@props(['local_licence_id', 'person_id'])
-<div>
-  <form action="{{ route('appointments.store', ['licence_id' => $local_licence_id]) }}" method="post" id="test">
+@props(['test_type','local_licence', 'person'])
+<div class="flex flex-col justify-between bg-black p-6 border border-default rounded-base w-250">
+  <h1 class="text-center w-fit text-white bold p-3 m-3 bg-[#6a7282] rounded-md text-2xl">Schedule <span class="text-yellow-500 bold">{{ $test_type['title'] }}</span></h1>
+  <h3 class="p-2 m-2 text-white text-xl">Licence ID: {{ $localLicence['id'] }} | Type: {{ $localLicence['licenceClass']['title'] }}</h3>
+  <h3 class="p-2 m-2 text-white text-xl">Person ID: {{ $person['id'] }} | Person name: {{ $person['name'] }}</h3>
+  <form action="{{ route('appointments.store', ['licence_id' => $local_licence['id']]) }}" method="post" id="test">
     @csrf
     <input type="date" name="appointment_date" class="m-2 block"
     max="{{ now()->addMonths(2)->format('Y-m-d') }}" min="{{now()->format('Y-m-d')}}"/>
     <x-input-error :messages="$errors->get('appointment_date')"/>
-    <input type="hidden" x-show="false" name="person_id" value="{{ $person_id }}"/>
+    <input type="hidden" x-show="false" name="person_id" value="{{ $person['id'] }}"/>
     <x-input-error :messages="$errors->get('person_id')"/>
-    <input type="hidden" x-show="false" name="local_licence_id" value="{{ $local_licence_id }}"/>
+    <input type="hidden" x-show="false" name="local_licence_id" value="{{ $local_licence['id'] }}"/>
     <x-input-error :messages="$errors->get('local_licence_id')"/>
-  </form>
-  <x-custom.person-card :mode="CardMode::read->value"/>
-  <button type="submit" form="test" class="p-2 m-2 bg-[#6a7282] text-white rounded-md">Schedule test</button>
+    <input type="hidden" x-show="false" name="test_type_id" value="{{ $test_type['id'] }}"/>
+    <x-input-error :messages="$errors->get('test_type_id')"/>
+    </form>
+    <button type="submit" form="test" class="p-2 m-2 w-fit mx-auto bg-[#6a7282] text-white rounded-md">Schedule test</button>
 </div>
