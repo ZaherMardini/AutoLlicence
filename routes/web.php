@@ -6,6 +6,7 @@ use App\Http\Controllers\LocalLicenceController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestAppointmentController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
@@ -60,9 +61,15 @@ Route::middleware('auth')->group(function () {
   Route::get('/appointments',                     [TestAppointmentController::class, 'index'] )->name('appointments.index');
   Route::get('/appointments/{localLicence}/{testType}/create', [TestAppointmentController::class, 'create'])->name('appointments.create');
   Route::post('/appointments/{licence_id}',       [TestAppointmentController::class, 'store'] )->name('appointments.store');
+  Route::get('/appointments/find',       [TestAppointmentController::class, 'find'] )->name('appointments.find');
   Route::get('/appointments/{licence_id}/edit',   [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
   Route::post('/appointments/{licence_id}/update',[TestAppointmentController::class, 'update'])->name('appointments.update');
   // Test appointments
+  
+  // Test
+  Route::get('/tests/{localLicence}/{testType}/create', [TestController::class, 'create'])->name('tests.create');
+  Route::post('/tests/{localLicence}/{testType}/create', [TestController::class, 'create'])->name('tests.create');
+  // Test
   });
   Route::get('/users/filter',         [UserController::class, 'filter'])->name('user.filter');
   Route::get('/users/find',           [UserController::class, 'find'])->name('user.find');

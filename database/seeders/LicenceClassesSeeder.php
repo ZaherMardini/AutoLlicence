@@ -12,7 +12,7 @@ class licenceClassesSeeder extends Seeder
   {
       $licenceClasses = [
         [
-        'title' => 'Local driving licence',
+        'title' => 'Regular driving licence',
         'description' => 'motorcycles Driving licence',
         'fees' => 20, 
         'minimum_allowed_age' => 18,

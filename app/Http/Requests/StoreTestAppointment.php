@@ -31,6 +31,7 @@ class StoreTestAppointment extends FormRequest
       $testTypeId = $this->input('test_type_id');
       $isUniqueApplication = TestAppointment::isUniqueApplication($personId, $local_licence_id, $testTypeId);
       $previousActiveAppointment = TestAppointment::activeAppointmentExists($personId);
+      $testPassed = TestAppointment::testPassed($local_licence_id);
       if ($previousActiveAppointment) {
         $validator->errors()->add(
           'person_id',

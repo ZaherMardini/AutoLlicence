@@ -13,6 +13,7 @@ use App\Models\LocalLicence;
 use App\Models\Person;
 use App\Models\TestAppointment;
 use App\Models\TestType;
+use Illuminate\Http\Request;
 
 class TestAppointmentController extends Controller
 {
@@ -29,6 +30,7 @@ class TestAppointmentController extends Controller
   public function create(LocalLicence $localLicence, TestType $testType){
     $searchBy = LocalLicence::searchBy();
     $searchRoutes = LocalLicence::$searchRoutes;
+    $searchRoutes = TestAppointment::$searchRoutes;
     $person = Person::findOrFail($localLicence['person_id']);
     $mode = CardMode::locked->value;
     $appointments = BaseQuery::testAppointments()->where('people.id', $person['id'])->get();
@@ -51,6 +53,13 @@ class TestAppointmentController extends Controller
     $info['paid_fees'] = TestAppointment::paidFees(TestTypes::VisionTest->value, ApplicationTypes::NewLocalLicence->value);
     $result = TestAppointment::create($info);
     return redirect()->route('appointments.create', ['localLicence' => $result['local_licence_id'], 'testType' => $info['test_type_id']]);
+  }
+  public function find(Request $request){
+    $appointments = BaseQuery::testAppointments()->where('test_appointments.id', $request['value'])->get();
+    foreach ($appointments as $appointment) {
+      $appointment['trials'] = TestAppointment::find($appointment['id'])->testtrials();
+    } 
+    return response()->json($appointments);
   }
   public function edit(){
     dd('not implemented');
