@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
   
   // Test
   Route::get('/tests/{localLicence}/{testType}/create', [TestController::class, 'create'])->name('tests.create');
-  Route::post('/tests/{localLicence}/{testType}/create', [TestController::class, 'create'])->name('tests.create');
+  Route::post('/tests/{localLicence}/{testType}/create', [TestController::class, 'store'])->name('tests.store');
   // Test
   });
   Route::get('/users/filter',         [UserController::class, 'filter'])->name('user.filter');

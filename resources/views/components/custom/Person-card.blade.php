@@ -52,8 +52,8 @@
   }"
   @person-id-updated.window = "person = event.detail"
 >
+  <h1 class="m-2 text-white text-2xl font-bold">{{ $modesLable[$mode] }}</h1>
   <h4 class="m-2 text-white">Person_ID: <span x-text="person?.id"></span></h4>
-  <h4 class="m-2 text-white">Mode: {{ $modesLable[$mode] }}</h4>
   <div class="flex flex-1 p-3 bg-gray-500">
     <form id="form" x-bind:action="isEditMode ? `/people/update/${person?.id}` : `/people/store`" method="post" class="" enctype="multipart/form-data" x-bind:disabled="isReadMode">
       @csrf

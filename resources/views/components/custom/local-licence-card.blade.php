@@ -12,25 +12,30 @@
     vision: @js(TestTypes::VisionTest->value),
     written: @js(TestTypes::WrittenTest->value),
     street: @js(TestTypes::StreetTest->value),
+    },
+    testOptionVisibility: {
+      vision:  false,
+      written: false,
+      street:  false,
    },
     person: '',
     licence: '',
     route: '{{ route('LocalLicence.store') }}',
-get visionTestRoute() {
-    return this.licence?.id
-        ? `/appointments/${this.licence.id}/${this.testTypes.vision}/create`
-        : '#';
-},
-get writtenTestRoute() {
-    return this.licence?.id
-        ? `/appointments/${this.licence.id}/${this.testTypes.written}/create`
-        : '#';
-},
-get streetTestRoute() {
-    return this.licence?.id
-        ? `/appointments/${this.licence.id}/${this.testTypes.street}/create`
-        : '#';
-},
+    get visionTestRoute() {
+        return this.licence?.id
+            ? `/appointments/${this.licence.id}/${this.testTypes.vision}/create`
+            : '#';
+    },
+    get writtenTestRoute() {
+        return this.licence?.id
+            ? `/appointments/${this.licence.id}/${this.testTypes.written}/create`
+            : '#';
+    },
+    get streetTestRoute() {
+        return this.licence?.id
+            ? `/appointments/${this.licence.id}/${this.testTypes.street}/create`
+            : '#';
+    },
     mode: @js($mode),
     classId: @js(old('licence_class_id', default: '1')),
     get isReadMode(){ return this.mode === '{{ CardMode::read->value }}' },
@@ -41,6 +46,22 @@ get streetTestRoute() {
         }
         return this.licence?.person_id;
     },
+    handleOptionVisibility(){
+      if(this.licence && this.licence.passedTests === 0){
+        this.testOptionVisibility.vision = true;
+      }
+      if(this.licence && this.licence.passedTests === 1){
+        this.testOptionVisibility.written = true;
+      }
+      if(this.licence && this.licence.passedTests === 2){
+        this.testOptionVisibility.street = true;
+      }
+    },
+    disableAllOptions(){
+      this.testOptionVisibility.street = false;
+      this.testOptionVisibility.written = false;
+      this.testOptionVisibility.vision = false;
+    },
   }" 
     @person-id-updated.window = "person = event.detail; handlePersonId()"
 
@@ -50,13 +71,15 @@ get streetTestRoute() {
       $dispatch('person-id-updated', licence.person);
     };
     handlePersonId();
+    disableAllOptions();
+    handleOptionVisibility();
   "  
   >
 
   {{-- Chat gpt HTML --}}
-  <div x-show="isReadMode" class="flex bg-gray-900 border border-gray-700 rounded-lg p-6 w-full max-w-md">
+  <div x-show="isReadMode" class="flex gap-5">
     <!-- Title -->
-    <div id="dataContainer" class="">
+    <div id="dataContainer" class="bg-gray-900 border border-gray-700 rounded-lg p-6 w-full max-w-md m-5">
       <h1 class="text-xl font-semibold text-white mb-4">
         Licence Information
       </h1>
@@ -70,6 +93,10 @@ get streetTestRoute() {
           <p class="text-sm text-gray-400">Licence Class</p>
           <x-text-input x-bind:readonly="isReadMode" x-bind:value="licence?.licence_class?.title" class="text-base text-white font-medium"/>
         </div>
+        <div class="mb-3">
+          <p class="text-sm text-gray-400">Passed tests</p>
+          <x-text-input x-bind:readonly="isReadMode" x-bind:value="licence?.passedTests" class="text-base text-white font-medium"/>
+        </div>
         <!-- Class Fees -->
         <div class="mb-3">
           <p class="text-sm text-gray-400">Class Fees</p>
@@ -80,28 +107,37 @@ get streetTestRoute() {
           <x-text-input x-bind:readonly="isReadMode" x-bind:value="licence?.licence_class?.minimum_allowed_age" class="text-base text-white font-medium">21 Years</x-text-input>
         </div>
     </div>
+
     <div id="menu-container">
+      <h1 class="text-center text-2xl text-white font-bold mb-3">Schedule Test</h1>
       <ul class="bg-gray-900 border border-gray-700 rounded-lg w-full max-w-sm divide-y divide-gray-700 text-gray-200">
-        <li>
+        <li x-show="testOptionVisibility.vision">
           <a x-bind:href="visionTestRoute"
             class="block px-4 py-3 hover:bg-gray-800">
             Vision Test
           </a>
         </li>
     
-        <li>
+        <li x-show="testOptionVisibility.written">
           <a x-bind:href="writtenTestRoute"
             class="block px-4 py-3 hover:bg-gray-800">
             Written Test
           </a>
         </li>
     
-        <li>
+        <li x-show="testOptionVisibility.street">
           <a x-bind:href="streetTestRoute"
             class="block px-4 py-3 hover:bg-gray-800">
             Street Test
           </a>
         </li>
+        <li x-show="licence.passedTests === 3" class="p-3">
+          <h1 class="text-2xl text-green-500 font-bold">All tests passed</h1>
+          
+        </li>
+        {{-- <template x-if="this">
+        
+        </template> --}}
     
       </ul>  
     </div>

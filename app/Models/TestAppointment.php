@@ -19,7 +19,9 @@ class TestAppointment extends Model
     'Test Type' => 'test_type',
     'Licence class' => 'class',
     'Appointment Date' => 'appointment_date',
-    'Paid fees' => 'paid_fees'
+    'Paid fees' => 'paid_fees',
+    'Closed' => 'isLocked',
+    'Test Result' => 'result'
   ];
   public static function paidFees(int $testTypeId, int $applicationTypeId){
       return TestType::find($testTypeId)['fees'] + ApplicationType::find($applicationTypeId)['fees'];
@@ -39,8 +41,11 @@ class TestAppointment extends Model
   public function test(){
     return $this->hasOne(Test::class);
   }
-  public static function testPassed(LocalLicence $localLicence){
-    dd('not implemented');
+  public function localLicence(){
+    return $this->belongsTo(LocalLicence::class);
+  }
+  public static function testIsPassed(LocalLicence $localLicence, int $testTypeId){
+    return BaseQuery::testIsPassed($localLicence, $testTypeId);
   }
   public function testtrials(){
     return BaseQuery::testTrials($this);

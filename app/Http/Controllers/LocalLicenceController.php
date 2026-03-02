@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CardMode;
+use App\Global\BaseQuery;
 use App\Global\Methods;
 use App\Http\Requests\StoreLocalLicenceRequest;
 use App\Models\LocalLicence;
@@ -53,6 +54,10 @@ class LocalLicenceController extends Controller
     $licence = LocalLicence::where($searchKey,$value)
     ->with(['licenceClass', 'person'])
     ->first(); 
+    if($licence){
+      $licence['passedTests'] = BaseQuery::passedTests($licence['id']);
+    }
+    // dd($licence);
     }
     return response()->json($licence);
   }

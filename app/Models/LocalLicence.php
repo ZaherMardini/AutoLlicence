@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ApplicationStatus;
+use App\Global\BaseQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +20,7 @@ class LocalLicence extends Model
       'Licence Class ID' => 'licence_class_id', 
       'Licence Class' => 'licence_class', 
       'Application ID' => 'application_id', 
-      'Passed tests' => '',
+      'Passed tests' => 'passedTests',
       'Status' => 'status',
       'Options' => 'testWithLicenceID',
     ];
@@ -54,6 +55,12 @@ class LocalLicence extends Model
       })
       ->exists();
       return !$exists;
+    }
+    public function passedTests(){
+      return BaseQuery::passedTests($this['id']);
+    }
+    public function testIsPassed(int $testTypeId){
+      return TestAppointment::testIsPassed($this, $testTypeId);
     }
     public function licenceClass(){
       return $this->belongsTo(LicenceClass::class);

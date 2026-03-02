@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\ApplicationStatus;
 use App\Enums\ApplicationTypes;
+use App\Global\BaseQuery;
 use App\Global\Methods;
 use App\Http\Requests\StoreLocalLicenceRequest;
 use App\Models\Application;
@@ -43,6 +44,11 @@ class LocalLicenceService{
     $columns = LocalLicence::$columns;
     $searchBy = LocalLicence::searchBy();
     $searchRoutes = LocalLicence::$searchRoutes;
+    foreach ($items as $item) {
+      // $item['passedTests'] = $item->passedTests(); //bug: items are just collection, not collection of Models
+      $item['passedTests'] = BaseQuery::passedTests($item['licence_id']);
+    }
+      // dd($items->toArray());
     return view('localLicence.index', compact('items', 'columns', 'searchBy', 'searchRoutes'));
   }
   public function store(StoreLocalLicenceRequest $request){

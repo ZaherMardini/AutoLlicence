@@ -19,18 +19,22 @@ class Methods{
     return collect($results);
   }
 
-  public static function filter(Builder $results,Request $request, array $searchBy, array $numericKeys){
+  public static function filter(Builder $builder, Request $request, array $searchBy, array $numericKeys){
     $key = $request['searchKey'];
     $value = $request['value'];
     if(!in_array($key, $searchBy, true)){
         return response()->json(abort('401','Invalid filter'));
-      };
+    };
     if(in_array($key, $numericKeys, true) && $value != ''){
-      $results->where($key, $value);
+      $builder->where($key, $value);
     }
     else{
-      $results->where($key, 'like', "%{$value}%");
+      $builder->where($key, 'like', "%{$value}%");
     };
-    return response()->json($results->get());
+    $items = $builder->get();
+    foreach ($items as $item) {
+      $item['passedTests'] = BaseQuery::passedTests($item['licence_id']);
+    }
+    return response()->json($items);
   }
 }

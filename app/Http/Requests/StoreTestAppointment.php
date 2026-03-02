@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\LocalLicence;
 use App\Models\TestAppointment;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -20,7 +21,7 @@ class StoreTestAppointment extends FormRequest
       'appointment_date' => ['required', 'date'],
       'test_type_id' => ['required', 'exists:test_types,id']
     ];
-    }
+  }
   public function withValidator($validator){
     $validator->after(function($validator){
       if($validator->errors()->has('person_id')){
@@ -28,14 +29,21 @@ class StoreTestAppointment extends FormRequest
       }
       $personId = $this->input('person_id');
       $local_licence_id = $this->input('local_licence_id');
+      $local_licence = LocalLicence::findOrFail($local_licence_id);
       $testTypeId = $this->input('test_type_id');
-      $isUniqueApplication = TestAppointment::isUniqueApplication($personId, $local_licence_id, $testTypeId);
+      // $isUniqueApplication = TestAppointment::isUniqueApplication($personId, $local_licence_id, $testTypeId);
       $previousActiveAppointment = TestAppointment::activeAppointmentExists($personId);
-      $testPassed = TestAppointment::testPassed($local_licence_id);
+      $testIsPassed = TestAppointment::testIsPassed($local_licence, $testTypeId);
       if ($previousActiveAppointment) {
         $validator->errors()->add(
           'person_id',
           'This person already has an active appointment for this test.'
+        );
+      }
+      if($testIsPassed){
+        $validator->errors()->add(
+          'person_id',
+          'This person has already passed this test.'
         );
       }
     });

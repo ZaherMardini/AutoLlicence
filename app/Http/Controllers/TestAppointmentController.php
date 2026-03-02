@@ -14,6 +14,7 @@ use App\Models\Person;
 use App\Models\TestAppointment;
 use App\Models\TestType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TestAppointmentController extends Controller
 {
@@ -28,6 +29,9 @@ class TestAppointmentController extends Controller
     return view('appointments.index', compact('appointments', 'columns'));
   }
   public function create(LocalLicence $localLicence, TestType $testType){
+    if(Gate::denies('check test order', [$localLicence['id'], $testType['id']])){     
+      abort(403, 'Not allowed to take this test');
+    }
     $searchBy = LocalLicence::searchBy();
     $searchRoutes = LocalLicence::$searchRoutes;
     $searchRoutes = TestAppointment::$searchRoutes;
@@ -36,13 +40,17 @@ class TestAppointmentController extends Controller
     $appointments = BaseQuery::testAppointments()->where('people.id', $person['id'])->get();
     $localLicence->load('licenceClass');
     $columns = TestAppointment::$columns;
+    $activeAppointmentExists = TestAppointment::activeAppointmentExists($person->id);
+    $testIsPassed = TestAppointment::testIsPassed($localLicence, $testType['id']);
     return view('appointments.create', 
     compact(
+      'testIsPassed',
       'testType',
+      'activeAppointmentExists',
       'appointments',
       'columns',
-    'mode',
-     'searchBy',
+      'mode',
+      'searchBy',
       'searchRoutes',
       'localLicence',
       'person',
