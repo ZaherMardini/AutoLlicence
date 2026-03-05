@@ -35,8 +35,12 @@ class TestAppointment extends Model
     ->exists();
     return !$result;
   }
-  public static function activeAppointmentExists(int $personId){
-    return TestAppointment::where('person_id', $personId)->where('isLocked', false)->exists();
+  public static function activeAppointmentExists(int $personId, int $testTypeId){
+    return TestAppointment::
+    where('person_id', $personId)
+    ->where('test_type_id', $testTypeId)
+    ->where('isLocked', false)
+    ->exists();
   }
   public function test(){
     return $this->hasOne(Test::class);

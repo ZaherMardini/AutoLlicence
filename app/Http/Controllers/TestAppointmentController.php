@@ -37,9 +37,10 @@ class TestAppointmentController extends Controller
     $appointments = BaseQuery::testAppointments()->where('people.id', $person['id'])->get();
     $localLicence->load('licenceClass');
     $columns = TestAppointment::$columns;
-    $activeAppointmentExists = TestAppointment::activeAppointmentExists($person->id);
+    // dump([$person->id, $testType->id]);
+    $activeAppointmentExists = TestAppointment::activeAppointmentExists($person->id, $testType->id);
     $testIsPassed = TestAppointment::testIsPassed($localLicence, $testType['id']);
-    return view('appointments.create', 
+    return view('appointments.appointment', 
     compact(
       'testIsPassed',
       'testType',
@@ -105,7 +106,30 @@ public function store_gpt(StoreTestAppointment $request)
   public function edit(){
     dd('not implemented');
   }
-  public function update(){
-    dd('not implemented');
+  public function update(Request $request){
+    $activeAppointment = TestAppointment::
+    where('person_id', $request['person_id'])
+    ->where('test_type_id', $request['test_type_id'])
+    ->where('local_licence_id', $request['local_licence_id'])
+    ->where('isLocked', 0)
+    ->first();
+    if(!$activeAppointment){
+      abort(404, 'No active appointment to update');
+    }
+    $activeAppointment->update(['appointment_date' => $request['appointment_date']]);
+    return redirect()->route('appointments.create', ['localLicence' => $request['local_licence_id'], 'testType' => $request['test_type_id']]);
+  }
+  public function cancel(Request $request){
+    $activeAppointment = TestAppointment::
+    where('person_id', $request['person_id'])
+    ->where('test_type_id', $request['test_type_id'])
+    ->where('local_licence_id', $request['local_licence_id'])
+    ->where('isLocked', 0)
+    ->first();
+    if(!$activeAppointment){
+      abort(404, 'No active appointment to delete');
+    }
+    $activeAppointment->update(['isLocked' => 1]);
+    return redirect()->route('appointments.create', ['localLicence' => $request['local_licence_id'], 'testType' => $request['test_type_id']]);
   }
 }

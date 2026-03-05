@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/appointments/find',       [TestAppointmentController::class, 'find'] )->name('appointments.find');
   Route::get('/appointments/{licence_id}/edit',   [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
   Route::post('/appointments/{licence_id}/update',[TestAppointmentController::class, 'update'])->name('appointments.update');
+  Route::post('/appointments/{licence_id}/cancel',[TestAppointmentController::class, 'cancel'])->name('appointments.cancel');
   // Test appointments
   
   // Test

@@ -32,7 +32,7 @@ class StoreTestAppointment extends FormRequest
       $local_licence = LocalLicence::findOrFail($local_licence_id);
       $testTypeId = $this->input('test_type_id');
       // $isUniqueApplication = TestAppointment::isUniqueApplication($personId, $local_licence_id, $testTypeId);
-      $previousActiveAppointment = TestAppointment::activeAppointmentExists($personId);
+      $previousActiveAppointment = TestAppointment::activeAppointmentExists($personId, $testTypeId);
       $testIsPassed = TestAppointment::testIsPassed($local_licence, $testTypeId);
       if ($previousActiveAppointment) {
         $validator->errors()->add(
