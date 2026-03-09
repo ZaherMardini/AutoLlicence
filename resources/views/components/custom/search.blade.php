@@ -10,14 +10,15 @@ if($routes && $searchBy){
     value: @js($initial_id ?: ''),
     event_name: @js($event_name),
     search(){
-      axios.get('{{route($routeName)}}', { params: { value: this.value, searchKey: this.searchKey } })
+      axios.get('{{ route($routeName) }}', { params: { value: this.value, searchKey: this.searchKey } })
       .then(response => { $dispatch(this.event_name, response.data) })
     },
     open: false,
     searchKey: @js(array_first($searchBy)),
     label: 'All categories',
   }"
-  x-init="search()"
+  {{-- x-init="search()" --}}
+  class="m-3"
   {{$attributes}}
 >
   <form class="max-w-2xl mx-auto m-3">

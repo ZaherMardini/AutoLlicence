@@ -32,9 +32,6 @@ class Methods{
       $builder->where($key, 'like', "%{$value}%");
     };
     $items = $builder->get();
-    foreach ($items as $item) {
-      $item['passedTests'] = BaseQuery::passedTests($item['licence_id']);
-    }
-    return response()->json($items);
+    return $items;
   }
 }

@@ -3,7 +3,7 @@
     <x-custom.search event_name="licence-id-updated" 
     :filter="false" 
     :routes="$searchRoutes" 
-    :searchBy="['Licence ID' => 'local_licences.id']"
+    :searchBy="['Local licence application ID' => 'local_licences.id']"
     />
     <x-custom.local-licence-card mode="read"/>
   </div>

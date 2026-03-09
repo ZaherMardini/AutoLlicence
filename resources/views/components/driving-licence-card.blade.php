@@ -8,7 +8,19 @@
   $statusClass = $statusColors[$status] ?? $statusColors['Active'];
 @endphp
 
-<div class="w-full max-w-md mx-auto">
+<div class="w-full max-w-md mx-auto"
+  x-data="{
+    licence:      @js($licence),
+    status:       @js($licence['status']),
+    statusColors: @js($statusColors),
+    statusClass:  @js($statusColors[$status] ?? $statusColors['Expired']),
+    handleStatusColors(){
+      this.status = this.licence?.status;
+      this.statusClass = this.statusColors[this.status] ?? this.statusColors['Expired'];
+    },
+  }"
+  @licence-card-updated.window = "licence = event.detail; handleStatusColors()";
+>
     <div class="relative rounded-2xl overflow-hidden shadow-2xl 
                 bg-zinc-900 border border-zinc-700">
 
@@ -18,7 +30,7 @@
                 <h2 class="text-sm sm:text-base font-semibold tracking-widest uppercase">
                     Government Driving Licence
                 </h2>
-                <span class="text-xs opacity-80">ID: {{ $licence['licence_number'] }}</span>
+                <span class="text-xs opacity-80">ID: <span x-text="licence?.licence_number"></span></span>
             </div>
         </div>
 
@@ -29,23 +41,25 @@
 
                 <div class="flex justify-center sm:justify-start">
                     <img 
-                        src="{{ $licence['image'] ?? 'https://i.pravatar.cc/150?img=3' }}"
-                        alt="Licence Holder"
+                        x-bind:src="licence?.image ?? '/images/defaults/male.png'"
+                        alt="licence holder"
                         class="w-24 h-28 object-cover rounded-lg border-2 border-indigo-500 shadow-md"
                     >
                 </div>
 
                 <div class="flex-1 text-center sm:text-left">
-                    <h3 class="text-xl font-bold text-white">
-                        {{ $licence['person']['name'] }}
+                    <h3 class="text-xl font-bold text-white"
+                    x-text="licence?.person?.name"
+                    >
                     </h3>
                     <p class="text-indigo-400 font-semibold mt-1">
-                        Class: {{ $licence['licence_class']['title'] }}
+                        Class: <span x-text="licence?.licence_class?.title"></span>
                     </p>
 
                     <div class="mt-3">
-                        <span class="px-3 py-1 text-xs font-medium rounded-full border {{ $statusClass }}">
-                            {{ $status }}
+                        <span class="px-3 py-1 text-xs font-medium rounded-full border" x-bind:class="statusClass"
+                        x-text="status"
+                        >
                         </span>
                     </div>
                 </div>
@@ -59,18 +73,23 @@
 
                 <div>
                     <p class="text-zinc-400 text-xs uppercase tracking-wide">Issue Date</p>
-                    <p class="text-white font-medium mt-1">{{ $licence['issue_date'] }}</p>
+                    <p class="text-white font-medium mt-1"
+                      x-text="licence?.issue_date"
+                    ></p>
                 </div>
 
                 <div>
                     <p class="text-zinc-400 text-xs uppercase tracking-wide">Expiry Date</p>
-                    <p class="text-white font-medium mt-1">{{ $licence['expiry_date'] }}</p>
+                    <p class="text-white font-medium mt-1"
+                      x-text="licence?.expiry_date"
+                    ></p>
                 </div>
 
                 <div class="sm:col-span-2">
                     <p class="text-zinc-400 text-xs uppercase tracking-wide">Notes</p>
-                    <p class="text-white font-medium mt-1">
-                        {{ $licence['notes'] }}
+                    <p class="text-white font-medium mt-1"
+                      x-text="licence?.notes"
+                    >
                     </p>
                 </div>
             </div>

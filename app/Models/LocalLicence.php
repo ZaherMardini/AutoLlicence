@@ -13,7 +13,7 @@ class LocalLicence extends Model
     use HasFactory;
 
     public static $columns = [
-      'Licence ID' => 'licence_id',
+      'Local licence application ID' => 'licence_id',
       'Person ID' => 'person_id', 
       'Person name' => 'name', 
       'Person national no' => 'national_no',
@@ -23,16 +23,16 @@ class LocalLicence extends Model
       'Passed tests' => 'passedTests',
       'Status' => 'status',
     ];
-    public static $searchRoutes = ['find'=>'LocalLicence.find', 'filter'=>'LocalLicence.filter'];
+    public static $searchRoutes = ['find'=>'localLicence.find', 'filter'=>'localLicence.filter'];
     public static function numericKeys() {
-      return collect(self::$columns)->only('Licence ID', 'Person ID', 'Application ID', 'licence_class_id')->toArray();
+      return collect(self::$columns)->only('Local licence application ID', 'Person ID', 'Application ID', 'licence_class_id')->toArray();
     }
     public static function searchBy_desired(){
       return collect(self::$columns)->only('Licence ID', 'Person ID', 'Status')->toArray();
     }
     public static function searchBy(){
      return [
-      'Licence ID' => 'local_licences.id',
+      'Local licence application ID' => 'local_licences.id',
       'Person ID' => 'people.id', 
       'Person name' => 'people.name', 
       'Person national no' => 'people.national_no',

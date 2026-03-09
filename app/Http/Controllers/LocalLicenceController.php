@@ -44,7 +44,11 @@ class LocalLicenceController extends Controller
     return view('LocalLicence.create');
   }
   public function filter(Request $request){
-    return $this->service->filter($request);
+    $items = $this->service->filter($request);
+    foreach ($items as $item) {
+      $item['passedTests'] = BaseQuery::passedTests($item['licence_id']);
+    }
+    return response()->json($items);
   }
   public function find(Request $request){
     $searchKey = $request['searchKey'];

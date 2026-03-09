@@ -20,7 +20,7 @@
    },
     person: '',
     local_licence: '',
-    formRoute: '{{ route('LocalLicence.store') }}',
+    formRoute: '{{ route('localLicence.store') }}',
     get showLicencePath(){ return `/licence/${this.local_licence?.licence_number}` },
     get localLicenceRoute(){
       if(this.local_licence?.passedTests === 3 && !this.local_licence?.licence_issued){
@@ -92,7 +92,7 @@
       </h1>
       <!-- Licence ID -->
         <div class="mb-3">
-          <p class="text-sm text-gray-400">Licence ID</p>
+          <p class="text-sm text-gray-400">Local licence application ID</p>
           <x-text-input x-bind:readonly="isReadMode" x-bind:value="local_licence?.id" class="text-base text-white font-medium"/>
         </div>
         <!-- Licence Class Title -->

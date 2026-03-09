@@ -66,7 +66,7 @@ class LocalLicenceService{
       $info['application_id'] = $application['id'];
       LocalLicence::create($info);
       });
-      return redirect()->route('LocalLicence.index');
+      return redirect()->route('localLicence.index');
   }
   public static function filter(Request $request){
     return Methods::filter(self::baseQuery(), $request, LocalLicence::searchBy(), LocalLicence::numericKeys());

@@ -23,27 +23,27 @@ class Menus
 
             [
                 'label' => 'New local driving licence',
-                'route' => 'LocalLicence.create',
+                'route' => 'localLicence.create',
             ],
 
             [
                 'label' => 'Show licence info',
-                'route' => 'LocalLicence.show',
+                'route' => 'localLicence.show',
             ],
 
             [
                 'label' => 'Local driving licences',
-                'route' => 'LocalLicence.index',
+                'route' => 'localLicence.index',
             ],
 
             [
                 'label' => 'Replacement for damaged licence',
-                'route' => 'LocalLicence.create',
+                'route' => 'localLicence.create',
             ],
 
             [
                 'label' => 'Replacement for lost licence',
-                'route' => 'LocalLicence.create',
+                'route' => 'localLicence.create',
             ],
         ],
     ];

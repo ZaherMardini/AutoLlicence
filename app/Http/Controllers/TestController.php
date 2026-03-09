@@ -32,6 +32,6 @@ class TestController extends Controller
       Test::create($info);
       TestAppointment::where('id', $info['test_appointment_id'])->update(['isLocked' => 1]);
     });
-    return redirect()->route('LocalLicence.index');
+    return redirect()->route('localLicence.index');
   }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
         $table->date('issue_date');
         $table->date('expiry_date');
         $table->string('notes')->nullable();
+        $table->string('issue_reason')->nullable(false);
         $table->string('status')->default(LicenceStatus::new->value);
         $table->string('image')->nullable();
         $table->timestamps();
