@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ApplicationStatus;
 use App\Enums\LicenceActions;
+use App\Enums\LicenceIssueReasons;
 use App\Enums\LicenceStatus;
 use App\Global\Current;
 use App\Global\Methods;
@@ -34,6 +35,7 @@ class LicenceController extends Controller
       $info['image'] = $localLicence['person']['image_path'];
       $info['licence_class_id'] = $localLicence['licenceClass']['id'];
       $info['issue_date'] = now();
+      $info['issue_reason'] = LicenceIssueReasons::new->value;
       $issue_date = Carbon::parse($info['issue_date']);
       $info['expiry_date'] = $issue_date->addYears($localLicence['licenceClass']['valid_years']);
       $licence = Licence::create($info);

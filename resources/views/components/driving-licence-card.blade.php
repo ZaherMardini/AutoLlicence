@@ -1,8 +1,8 @@
 @php
-  $statusColors = [
-    'Active' => 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    'Expired' => 'bg-red-500/20 text-red-400 border-red-500/30',
-    'Detained' => 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+$statusColors = [
+    'Active' => 'text-[#34d399]',
+    'Expired' => 'text-[#f87171]',
+    'Detained' => 'text-[#facc15]',
   ];
   $status = $licence['status'];
   $statusClass = $statusColors[$status] ?? $statusColors['Active'];
@@ -20,97 +20,123 @@
       this.statusClass = this.statusColors[this.status] ?? this.statusColors['Expired'];
     },
   }"
-  @licence-card-updated.window = "licence = event.detail; handleStatusColors(); route";
+  @licence-card-updated.window="licence = event.detail; handleStatusColors(); route"
 >
-    <div class="relative rounded-2xl overflow-hidden shadow-2xl 
-                bg-zinc-900 border border-zinc-700">
 
-        <!-- Top Official Strip -->
-        <div class="bg-linear-to-r from-indigo-600 via-blue-600 to-cyan-500 p-3">
-            <div class="flex justify-between items-center text-white">
-                <h2 class="text-sm sm:text-base font-semibold tracking-widest uppercase">
-                    Government Driving Licence
-                </h2>
-                <span class="text-xs opacity-80">ID: <span x-text="licence?.licence_number"></span></span>
-            </div>
+<div {{ $attributes }} style="
+    border:1px solid #2c3e50;
+    background:#1f2a44;
+    border-radius:12px;
+    padding:16px;
+    color:#ffffff;
+">
+
+    <!-- Header -->
+    <div style="
+        border-bottom:1px solid #34495e;
+        padding-bottom:10px;
+        margin-bottom:14px;
+    ">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong style="font-size:15px;letter-spacing:1px;">
+                Government Driving Licence
+            </strong>
+
+            <span style="font-size:12px;opacity:0.8;">
+                ID: <span x-text="licence?.licence_number"></span>
+            </span>
         </div>
-
-        <div class="p-5 space-y-5">
-
-            <!-- Profile Section -->
-            <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
-
-                <div class="flex justify-center sm:justify-start">
-                    <img 
-                        x-bind:src="licence?.image ?? '/images/defaults/male.png'"
-                        alt="licence holder"
-                        class="w-24 h-28 object-cover rounded-lg border-2 border-indigo-500 shadow-md"
-                    >
-                </div>
-
-                <div class="flex-1 text-center sm:text-left">
-                    <h3 class="text-xl font-bold text-white"
-                    x-text="licence?.person?.name"
-                    >
-                    </h3>
-                    <p class="text-indigo-400 font-semibold mt-1">
-                        Class: <span x-text="licence?.licence_class?.title"></span>
-                    </p>
-
-                    <div class="mt-3">
-                        <span class="px-3 py-1 text-xs font-medium rounded-full border" x-bind:class="statusClass"
-                        x-text="status"
-                        >
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="border-t border-zinc-700"></div>
-
-            <!-- Information Grid -->
-            <div class="grid grid-cols-2 grid-rows-2 gap-4 text-sm">
-
-                <div>
-                    <p class="text-zinc-400 text-xs uppercase tracking-wide">Issue Date</p>
-                    <p class="text-white font-medium mt-1"
-                      x-text="licence?.issue_date"
-                    ></p>
-                </div>
-
-                <div>
-                    <p class="text-zinc-400 text-xs uppercase tracking-wide">Expiry Date</p>
-                    <p class="text-white font-medium mt-1"
-                      x-text="licence?.expiry_date"
-                    ></p>
-                </div>
-
-                <div class="">
-                    <p class="text-zinc-400 text-xs uppercase tracking-wide">Issue Reason</p>
-                    <p class="text-white font-medium mt-1"
-                      x-text="licence?.notes"
-                    >
-                    </p>
-                </div>
-                <div class="">
-                    <p class="text-zinc-400 text-xs uppercase tracking-wide">Notes</p>
-                    <p class="text-white font-medium mt-1"
-                      x-text="licence?.notes"
-                    >
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Subtle Bottom Accent -->
-        <div class="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-indigo-600 via-blue-600 to-cyan-500"></div>
-      </div>
-      @if (!$hideOperationsButton)
-        <div class="m-5">
-          <a x-bind:href="route"
-          class="w-full mt-2 bg-white text-black font-medium p-3 rounded-lg hover:bg-zinc-200 transition"
-          >Licence operations</a>
-        </div>
-      @endif
     </div>
+
+    <!-- Profile -->
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+
+        <img
+            crossorigin="anonymous"
+            x-bind:src="licence?.image ?? '/images/defaults/male.png'"
+            src="/images/defaults/male.png"
+            alt="licence holder"
+            style="
+                width:90px;
+                height:110px;
+                object-fit:cover;
+                border:2px solid #3b82f6;
+                border-radius:8px;
+            "
+        >
+
+        <div>
+
+            <div style="font-weight:bold;font-size:18px;"
+                 x-text="licence?.person?.name"></div>
+
+            <div style="margin-top:5px;color:#93c5fd;">
+                Class: <span x-text="licence?.licence_class?.title"></span>
+            </div>
+
+            <div style="margin-top:10px;">
+              <span
+                class="font-bold"
+                x-bind:class="statusClass"
+                x-text="status"
+              >
+            </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div style="border-top:1px solid #34495e;margin:16px 0;"></div>
+
+    <!-- Info Grid -->
+    <div style="
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:14px;
+        font-size:14px;
+    ">
+
+        <div>
+            <div style="font-size:12px;color:#9ca3af;">Issue Date</div>
+            <div x-text="licence?.issue_date"></div>
+        </div>
+
+        <div>
+            <div style="font-size:12px;color:#9ca3af;">Expiry Date</div>
+            <div x-text="licence?.expiry_date"></div>
+        </div>
+
+        <div>
+            <div style="font-size:12px;color:#9ca3af;">Issue Reason</div>
+            <div x-text="licence?.issue_reason"></div>
+        </div>
+
+        <div>
+            <div style="font-size:12px;color:#9ca3af;">Notes</div>
+            <div x-text="licence?.notes"></div>
+        </div>
+
+    </div>
+
+</div>
+
+@if (!$hideOperationsButton)
+<div style="margin-top:12px;">
+  <a x-bind:href="route"
+     style="
+        display:block;
+        text-align:center;
+        padding:10px;
+        border-radius:8px;
+        background:#3b82f6;
+        color:white;
+        text-decoration:none;
+        font-weight:600;
+     ">
+     Licence operations
+  </a>
+</div>
+@endif
+
+</div>

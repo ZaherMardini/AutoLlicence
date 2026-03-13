@@ -10,7 +10,6 @@
         <link href="{{ asset('assets/css/all.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/brands.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/solid.css') }}" rel="stylesheet" />
-
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -35,6 +34,11 @@
                 {{ $slot }}
             </main>
         </div>
+        <!-- Flowbite library -->
         <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+        <!-- HTML To pdf libraries -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.12.1/html2pdf.bundle.min.js" integrity="sha512-D25Z8/1q2z65ZpJ3NzY6XiPZfwjhbv34OTQHDIZd+KPK+uWCovGt+fMkSzW8ArzCMFUgZt6Cdu7qoXNuy6a2GA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     </body>
 </html>
