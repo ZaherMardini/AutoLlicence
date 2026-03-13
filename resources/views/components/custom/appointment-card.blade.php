@@ -16,10 +16,10 @@ x-data="{
     edit: @js(route(  'appointments.update',   [ 'licence_id'  => $local_licence['id']  ])),
     cancel: @js(route('appointments.cancel',   [ 'licence_id'  => $local_licence['id']  ])),
   },
-  get formRoute_addEdit() {
+  get formAction_addEdit() {
     return this.routes[this.mode];
   },
-  get formRoute_cancel() {
+  get formAction_cancel() {
     return this.routes['cancel'];
   },
   get showDatePicker(){
@@ -64,47 +64,43 @@ x-data="{
       <span class="font-medium text-white">{{ $person['name'] }}</span>
     </div>
 
-  </div>
+  </div>  
 
+    <!-- FORM -->
+    {{-- <form id="addEdit" method="post" x-bind:action="formRoute_addEdit" class="space-y-6">
+      @csrf
+    </form> --}}
 
-  <!-- FORM -->
-  <form id="cancel" method="post" x-bind:action="formRoute_cancel">
-    @csrf
-  <form x-bind:action="formRoute_addEdit" 
-        method="post" 
-        id="addEdit"
-        class="space-y-6">
-    @csrf
+    <form id="add_edit_cancel" method="post">
+        @csrf
+        <div x-show="showDatePicker">
+          <label class="block text-sm text-slate-400 mb-2">
+            Select Appointment Date
+          </label>
 
+          <input
+            type="date"
+            name="appointment_date"
+            x-bind:value="dateValue"
+            max="{{ now()->addMonths(2)->format('Y-m-d') }}"
+            min="{{ now()->format('Y-m-d') }}"
+            class="w-full max-w-xs bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
+          />
 
-      <div x-show="showDatePicker">
-        <label class="block text-sm text-slate-400 mb-2">
-          Select Appointment Date
-        </label>
+          <x-input-error :messages="$errors->get('appointment_date')" class="mt-2"/>
+        </div>
 
-        <input
-          type="date"
-          name="appointment_date"
-          x-bind:value="dateValue"
-          max="{{ now()->addMonths(2)->format('Y-m-d') }}"
-          min="{{ now()->format('Y-m-d') }}"
-          class="w-full max-w-xs bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-        />
+        <!-- Hidden Fields (unchanged) -->
+        <input type="hidden" name="person_id" value="{{ $person['id'] }}"/>
+        <x-input-error :messages="$errors->get('person_id')"/>
 
-        <x-input-error :messages="$errors->get('appointment_date')" class="mt-2"/>
-      </div>
+        <input type="hidden" name="local_licence_id" value="{{ $local_licence['id'] }}"/>
+        <x-input-error :messages="$errors->get('local_licence_id')"/>
 
-    <!-- Hidden Fields (unchanged) -->
-    <input type="hidden" name="person_id" value="{{ $person['id'] }}"/>
-    <x-input-error :messages="$errors->get('person_id')"/>
+        <input type="hidden" name="test_type_id" value="{{ $test_type['id'] }}"/>
+        <x-input-error :messages="$errors->get('test_type_id')"/>
+    </form>
 
-    <input type="hidden" name="local_licence_id" value="{{ $local_licence['id'] }}"/>
-    <x-input-error :messages="$errors->get('local_licence_id')"/>
-
-    <input type="hidden" name="test_type_id" value="{{ $test_type['id'] }}"/>
-    <x-input-error :messages="$errors->get('test_type_id')"/>
-  </form>
-</form>
     <div id="options">
       <button x-show="activeAppointmentExist"
         @click="mode = 'edit'; showDatePicker;"
@@ -112,19 +108,17 @@ x-data="{
       >
         Edit appointment
       </button>
-      <button type="submit" form="cancel" x-show="activeAppointmentExist"
+      <button type="submit" form="add_edit_cancel" x-bind:formaction="formAction_cancel" x-show="activeAppointmentExist"
         class="m-2 w-fit cursor-pointer inline-block bg-red-600/90 border border-blue-500 text-white text-sm font-medium px-6 py-3 rounded-lg"
       >
         Cancle appointment
       </button>
     </div>
-
-
   <div class="mt-8">
     <!-- PASSED MESSAGE -->
     <p
-        x-show="testIsPassed"
-        class="text-base font-semibold text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 w-fit"
+      x-show="testIsPassed"
+      class="text-base font-semibold text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 w-fit"
     >
         Person already passed this test
     </p>
@@ -133,18 +127,20 @@ x-data="{
     <button
         x-show="!testIsPassed && !activeAppointmentExist"
         type="submit"
-        form="addEdit"
-        class="bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white text-sm font-medium px-6 py-3 rounded-lg"
+        form="add_edit_cancel"
+        x-bind:formaction="formAction_addEdit"
+        class="cursor-pointer bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white text-sm font-medium px-6 py-3 rounded-lg"
     >
-    Schedule Test
+    Schedule Appointment
     </button>
     <button
         x-show="activeAppointmentExist && isEditMode"
         type="submit"
-        form="addEdit"
-        class="bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white text-sm font-medium px-6 py-3 rounded-lg"
+        form="add_edit_cancel"
+        x-bind:formaction="formAction_addEdit"
+        class="cursor-pointer bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white text-sm font-medium px-6 py-3 rounded-lg"
     >
-    Edit Appointment
+    Save
     </button>
 
     @php
@@ -159,9 +155,5 @@ x-data="{
     >
         Go to Test
     </a>
-
-
-
   </div>
-
 </div>

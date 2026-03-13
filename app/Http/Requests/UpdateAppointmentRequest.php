@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TestAppointmentRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAppointmentRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateAppointmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,6 @@ class UpdateAppointmentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+      return TestAppointmentRules::baseRuels();
     }
 }
