@@ -2,32 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ApplicationStatus;
 use App\Enums\ApplicationTypes;
-use App\Enums\FineActions;
-use App\Enums\LicenceActions;
-use App\Enums\LicenceIssueReasons;
-use App\Enums\LicenceStatus;
 use App\Global\Menus;
-use App\Global\Methods;
 use App\Http\Requests\DetainReleaseLicenceRequest;
 use App\Http\Requests\RenewLicenceRequest;
 use App\Http\Requests\ReplaceLicenceRequest;
 use App\Http\Requests\StoreLicenceRequest;
 use App\Http\Requests\StoreLicenceServiceRequest;
-use App\Models\Application;
 use App\Models\ApplicationType;
-use App\Models\DetainedLicence;
-use App\Models\Driver;
 use App\Models\Fine;
 use App\Models\Licence;
-use App\Models\LicenceOperationApplication;
 use App\Models\LocalLicence;
 use App\Services\LicenceService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class LicenceController extends Controller
 {
