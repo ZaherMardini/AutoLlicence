@@ -7,7 +7,6 @@
 
     {{-- Item With Children --}}
     @if(isset($item['children']) && count($item['children']) > 0)
-    {{-- {{ dd($item) }} --}}
         <div class="flex items-center justify-between w-full p-2 rounded cursor-pointer hover:bg-neutral-tertiary-medium hover:text-heading">
             {{ $item['label'] }}
 

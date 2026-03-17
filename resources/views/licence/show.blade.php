@@ -9,7 +9,6 @@
   }"
   @licence-card-updated.window="licence = event.detail; route; activeLicence"
   >
-    <h1 class="text-white font-bold" x-show="activeLicence">Active licence</h1>
     <div class="flex flex-col items-center w-full">
       <h1 class="text-white text-xl font-bold m-5">
         Recent issued licence for <span class="text-cyan-300">{{ $licence['person']['name'] }}</span>
@@ -55,7 +54,7 @@
           <a
             x-show="activeLicence"
             x-bind:href="route"
-            class="text-center p-2.5 rounded-md bg-[#3b82f6] text-white font-bold">
+            class="text-center p-2.5 rounded-md bg-[#0979a5] text-white font-bold">
             Licence operations
           </a>
           <button

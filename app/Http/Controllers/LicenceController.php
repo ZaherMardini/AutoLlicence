@@ -13,7 +13,6 @@ use App\Global\Methods;
 use App\Http\Requests\DetainReleaseLicenceRequest;
 use App\Http\Requests\RenewLicenceRequest;
 use App\Http\Requests\ReplaceLicenceRequest;
-use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\StoreLicenceRequest;
 use App\Http\Requests\StoreLicenceServiceRequest;
 use App\Models\Application;
@@ -26,7 +25,6 @@ use App\Models\LicenceOperationApplication;
 use App\Models\LocalLicence;
 use App\Services\LicenceService;
 use Carbon\Carbon;
-use Illuminate\Container\Attributes\Auth as AttributesAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,30 +36,9 @@ class LicenceController extends Controller
     $this->service = $service;
   }
   public function store(LocalLicence $localLicence, StoreLicenceRequest $request){
-    $info = $request->validated();
-    $licence = DB::transaction(function() use($info, $localLicence) {
-      $localLicence->load(['person', 'licenceClass']);
-      $driver = Driver::create(['person_id' => $localLicence['person_id']]);
-      $info['driver_id'] = $driver['id'];
-      $info['licence_number'] = Licence::generateNumber();
-      $info['status'] = LicenceStatus::new->value;
-      $info['image'] = $localLicence['person']['image_path'];
-      $info['licence_class_id'] = $localLicence['licenceClass']['id'];
-      $info['issue_date'] = now();
-      $info['issue_reason'] = LicenceIssueReasons::new->value;
-      $issue_date = Carbon::parse($info['issue_date']);
-      $info['expiry_date'] = $issue_date->addYears($localLicence['licenceClass']['valid_years']);
-      $licence = Licence::create($info);
-      $licence->load(['local_licence','person']);
-      $local_licence = LocalLicence::
-      where('person_id', $licence['person_id'])
-      ->where('licence_class_id', $licence['licence_class_id'])
-      ->first();
-      Application::find($local_licence['application_id'])->update(['status' => ApplicationStatus::Completed->value]);
-      return $licence;
-      });
+      $licence = $this->service->store($localLicence, $request);
       return redirect()->route('licence.show', compact('licence'));
-      }
+    }
   public function show(Licence $licence){
     $licence->load(['person:id,name', 'licence_class:id,title']);
     $licences = Licence::where('person_id', $licence['person']['id'])
@@ -150,7 +127,7 @@ class LicenceController extends Controller
     }
   public function createOperationApplication(Licence $licence, ApplicationType $applicationType, StoreLicenceServiceRequest $request){
     $this->service->createLicenceOperationApplication($licence, $applicationType);
-    return redirect()->route('applications.index');
+    return redirect()->route('licence.show', ['licence' => $licence['id']]);
   }
   public function renew(Licence $licence, RenewLicenceRequest $request){
     $licence->load('licence_class:id,valid_years');
