@@ -82,4 +82,93 @@ class LicenceService{
       });
       return $licence;
   }
+  public function detain(Licence $licence){
+    DB::transaction(function() use($licence){
+      $licence->update(['status' => LicenceStatus::detained->value]);
+      DetainedLicence::create([
+        'licence_id' => $licence['id'],
+        'created_by_user_id' => Auth::id(),
+      ]);
+    });
+  }
+  public function release(Licence $licence){
+      DB::transaction(function() use($licence){
+        $licence->update(['status' => LicenceStatus::new->value]);
+        $detained = DetainedLicence::where('licence_id', $licence['id'])->first();
+        $releaseApplication = LicenceOperationApplication::getApplication($licence, ApplicationTypes::ReleaseDetained->value);
+        $fine = Fine::findOrFail(FineActions::release->value)['ammount'];
+        $detained->update([
+          'released_by_user_id' => Auth::id(),
+          'release_date'        => now(),
+          'release_application_id' => $releaseApplication['id'],
+          'isReleased'          => true,
+          'fine'                => $fine,
+          ]);
+      });
+  }
+  public function detainRelease(Licence $licence, DetainReleaseLicenceRequest $request){
+    $info = $request->validated();
+    $action = $info['licence_action'];
+    if($action === LicenceActions::detain->value){
+      self::detain($licence);
+    }
+    else if($action === LicenceActions::release->value){
+      self::release($licence);
+    }
+    return $licence;
+  }
+  public function filter(Request $request){
+    $licences = null;
+    $licences = Licence::where('person_id', session('person_id'))
+    ->with(['licence_class:id,title', 'person:id,name']);
+    $licences = Methods::filter($licences, $request, Licence::searchBy(), Licence::numericKeys());
+    foreach ($licences as $licence) {
+      $licence['title'] = $licence['licence_class']['title'];
+    }
+    return $licences;
+  }
+  public function find(Request $request){
+    $searchKey = $request['searchKey'];
+    $value = $request['value'];
+    $licence = null;
+    if(in_array( $searchKey, Licence::searchBy() )){
+      $licence = Licence::where('person_id', session('person_id'))
+      ->where($searchKey,$value)
+      ->with(['licence_class:id,title', 'person:id,name'])
+      ->first();
+      if($licence){
+        $licence['title'] = $licence['licence_class']['title'];
+      }
+    }
+    return $licence;
+  }
+  public function renew(Licence $licence, RenewLicenceRequest $request){
+    $licence->load('licence_class:id,valid_years');
+    $currentExpiryDate = $licence['expiry_date'];
+    $validYears = $licence['licence_class']['valid_years'];
+    $renewedDate = Carbon::parse($currentExpiryDate)->addYears($validYears);
+    $licence->update([
+      'expiry_date' => $renewedDate,
+      'status' => 'Active',
+      'issue_reason' => LicenceIssueReasons::renewed->value
+    ]);
+    LicenceOperationApplication::completeApplication($licence, ApplicationTypes::RenewLicence->value);
+  }
+  public function replace(Licence $old_licence, Request $request){
+    $attributes = $old_licence->toArray();
+    $info = $request->validated();
+    unset($attributes['id']);
+    $attributes['issue_reason'] = "Replacement for {$info['licence_replacement_service']} licence"; 
+    $newLicence = Licence::create($attributes);
+    $old_licence->update(['status' => LicenceStatus::deactivated->value]);
+    $typeId = -1;
+    if($info['licence_replacement_service'] === 'lost'){
+      $typeId = ApplicationTypes::LostReplacement->value;
+    }
+    else{
+      $typeId = ApplicationTypes::DamagedReplacement->value;
+    }
+    LicenceOperationApplication::completeApplication($old_licence, $typeId);
+    return $newLicence['id'];
+  }
 }
