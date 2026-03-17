@@ -31,6 +31,12 @@ class Person extends Model
   public function age(){
     return date_diff(now(), $this['date_of_birth'])->y;
   }
+  public function isDriver(){
+    return Self::driver()->exists();
+  }
+  public function driver(){
+    return $this->hasOne(Driver::class);
+  }
   public function inAllowedAge(int $min){
     return $this->age() >= $min;
   }

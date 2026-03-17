@@ -3,12 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
-use App\Models\LocalLicence;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +19,7 @@ class DatabaseSeeder extends Seeder
       $this->call(TestTypesSeeder::class);        
       $this->call(ApplicationtypesSeeder::class);
       $this->call(licenceClassesSeeder::class);
+      $this->call(FineSeeder::class);
 
       Country::factory(5)->create();
       // User::factory(3)

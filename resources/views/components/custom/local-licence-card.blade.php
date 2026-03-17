@@ -150,7 +150,7 @@
               x-show="!local_licence?.licence_issued"
               type="submit"
               class="cursor-pointer m-2 px-6 py-3 text-lg font-semibold
-                    text-cyan-400 bg-zinc-800
+                    text-green-400 bg-zinc-800
                     rounded-xl
                     border border-zinc-700
                     shadow-lg shadow-cyan-500/10

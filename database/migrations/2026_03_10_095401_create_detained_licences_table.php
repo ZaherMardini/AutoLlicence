@@ -17,6 +17,7 @@ return new class extends Migration
       Schema::create('detained_licences', function (Blueprint $table) {
         $table->id();
         $table->foreignIdFor(Licence::class)->nullable(false);
+        $table->foreignIdFor(Application::class, 'release_application_id')->nullable(true);
         $table->foreignIdFor(User::class, 'created_by_user_id')->nullable(false);
         $table->foreignIdFor(User::class, 'released_by_user_id')->nullable();
         $table->date('release_date')->nullable();

@@ -16,9 +16,11 @@ class ApplicationTypesSeeder extends Seeder
       $licences = 
       [
         ['title' => 'New local licence', 'fees' => 15],
+        ['title' => 'New international licence', 'fees' => 20],
         ['title' => 'Renew licence', 'fees' => 5],
         ['title' => 'Replacement for lost licence', 'fees' => 10],
         ['title' => 'Replacement for damaged licence', 'fees' => 10],
+        ['title' => 'Release detained licence', 'fees' => 25],
       ];
 
       foreach ($licences as $licence) {

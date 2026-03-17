@@ -1,4 +1,4 @@
-@props(['title', 'menuItems', 'namedRoutes' => true])
+@props(['title', 'menuItems', 'enableNamedRoutes' => true])
 
 @php
     $dropdownDefaultButtonId = 'dropdownDefaultButton_' . uuid_create();
@@ -28,10 +28,9 @@
 
     <ul class="p-2 text-sm text-body font-medium"
         aria-labelledby="{{ $dropdownDefaultButtonId }}">
-
         @foreach ($menuItems as $item)
-            <x-custom.menu-item :item="$item" :namedRoutes="$namedRoutes" />
+          {{-- {{ dd($menuItems) }} --}}
+            <x-custom.menu-item :item="$item" :enableNamedRoutes="$enableNamedRoutes" />
         @endforeach
-
     </ul>
 </div>

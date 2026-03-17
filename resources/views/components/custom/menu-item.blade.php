@@ -1,13 +1,12 @@
 @props([
     'item',
-    'namedRoutes' => true
+    'enableNamedRoutes' => true
 ])
 
 <li class="relative group">
 
     {{-- Item With Children --}}
     @if(isset($item['children']) && count($item['children']) > 0)
-
         <div class="flex items-center justify-between w-full p-2 rounded cursor-pointer hover:bg-neutral-tertiary-medium hover:text-heading">
             {{ $item['label'] }}
 
@@ -26,15 +25,14 @@
         <ul class="absolute top-0 left-full ml-1 hidden group-hover:block bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-56 p-2 text-sm font-medium">
 
             @foreach($item['children'] as $child)
-                <x-custom.menu-item :item="$child" :namedRoutes="$namedRoutes" />
+                <x-custom.menu-item :item="$child" :enableNamedRoutes="$enableNamedRoutes" />
             @endforeach
 
         </ul>
 
     {{-- Simple Link Item --}}
     @else
-
-        <a href="{{ $namedRoutes ? route($item['route']) : $item['route'] }}"
+        <a href="{{ $enableNamedRoutes ? route($item['route']) : $item['route'] }}"
            class="inline-flex items-center w-full p-2 rounded hover:bg-neutral-tertiary-medium hover:text-heading">
             {{ $item['label'] }}
         </a>

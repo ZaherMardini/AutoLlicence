@@ -1,9 +1,13 @@
-@props(['licence'])
+@props(['licence', 'services', 'fines'])
 <div class="max-w-md w-full bg-zinc-900 border border-zinc-800 rounded-2xl shadow-lg p-6">
     @php
       use App\Enums\LicenceActions;
+      use App\Enums\ApplicationTypes;
+      use App\Enums\FineActions;
       $detain = LicenceActions::detain->value;
       $release = LicenceActions::release->value;
+      $releaseFee = $services[ApplicationTypes::ReleaseDetained->value]['fees'];
+      $fine = $fines[FineActions::release->value]['ammount'];
       $routeName = 'licence.detainRelease';
     @endphp
     <!-- Title -->
@@ -46,18 +50,18 @@
         <div class="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
 
             <div class="flex justify-between text-sm text-zinc-400">
-                <span>Replacement fee</span>
-                <span>€20</span>
+                <span>Release fine</span>
+                <span>{{ $releaseFee }}$</span>
             </div>
 
             <div class="flex justify-between text-sm text-zinc-400 mt-2">
                 <span>Administrative fee</span>
-                <span>€4</span>
+                <span>{{ $fine }}$</span>
             </div>
 
             <div class="border-t border-zinc-800 mt-3 pt-3 flex justify-between font-medium text-white">
                 <span>Total</span>
-                <span>€24</span>
+                <span>{{ $releaseFee + $fine }}$</span>
             </div>
 
         </div>

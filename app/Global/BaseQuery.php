@@ -2,11 +2,27 @@
 
 namespace App\Global;
 
+use App\Models\Application;
 use App\Models\LocalLicence;
 use App\Models\Test;
 use App\Models\TestAppointment;
 
 class BaseQuery{
+  public static function applications(){
+    return 
+    Application
+    ::join('people', 'applications.person_id', 'people.id')
+    ->join('application_types', 'applications.application_type_id', 'application_types.id')
+    ->select(
+      'applications.id as id',
+      'people.id as person_id',
+      'people.name as person_name',
+      'application_types.title as service',
+      'application_types.id as service_id',
+      'application_types.fees as fees',
+      'applications.status as status',
+    );
+  }
   public static function testAppointments(){
     return
     TestAppointment

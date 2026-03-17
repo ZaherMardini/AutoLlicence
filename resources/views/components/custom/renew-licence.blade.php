@@ -1,4 +1,9 @@
-@props(['licence'])
+@props(['licence', 'services', 'fines'])
+@php
+  use App\Enums\ApplicationTypes;
+  $formAction = "/licence/{$licence['id']}/renew";
+  $service = $services[ApplicationTypes::RenewLicence->value];
+@endphp
 <div class="max-w-md w-full bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-2xl shadow-xl p-6 space-y-6">
 
     <!-- Title -->
@@ -11,27 +16,26 @@
         </p>
     </div>
 
-    <form method="POST" action="#" class="space-y-5">
+    <form method="POST" action="{{ route('licence.renew', ['licence' => $licence['id']]) }}" class="space-y-5">
         @csrf
-
+        @method('patch')
         <!-- Renewal Option -->
         <div class="space-y-3">
 
             <label class="group flex items-center gap-3 p-4 rounded-xl border border-zinc-800 bg-zinc-900 hover:border-indigo-500/60 hover:bg-zinc-800/70 transition cursor-pointer">
-
                 <input
                     type="radio"
-                    name="renew_option"
-                    value="renew"
+                    name="licence_renew_service"
+                    value="3"
                     class="w-4 h-4 text-indigo-500 border-zinc-700 bg-zinc-900 focus:ring-indigo-500"
-                >
-
+                />
                 <span class="text-zinc-200 text-sm font-medium">
                     Renew licence
                 </span>
-
-            </label>
-
+                <input type="hidden" name="licence_id" value="{{ $licence['id'] }}">
+              </label>
+              <x-input-error :messages="$errors->get('licence_renew_service')"/>
+              <x-input-error :messages="$errors->get('licence_id')"/>
         </div>
 
         <!-- Fees Section -->
@@ -39,17 +43,17 @@
 
             <div class="flex items-center justify-between text-sm text-zinc-400">
                 <span>Base renewal fee</span>
-                <span>€25</span>
+                <span>{{ $service['fees'] }} $</span>
             </div>
 
             <div class="flex items-center justify-between text-sm text-zinc-400 mt-2">
                 <span>Processing fee</span>
-                <span>€5</span>
+                <span>{{ $service['base_application_fee'] }} $</span>
             </div>
 
             <div class="border-t border-zinc-800 mt-3 pt-3 flex justify-between font-medium text-white">
                 <span>Total</span>
-                <span>€30</span>
+                <span>{{ $service['base_application_fee'] + $service['fees'] }} $</span>
             </div>
 
         </div>

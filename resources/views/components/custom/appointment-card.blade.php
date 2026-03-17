@@ -151,7 +151,7 @@ x-data="{
     <a
         x-show="!testIsPassed && activeAppointmentExist"
         href="{{ $path }}"
-        class="inline-block bg-green-600/90 border border-green-500 text-white text-sm font-medium px-6 py-3 rounded-lg"
+        class="m-2 inline-block bg-green-600/90 border border-green-500 text-white text-sm font-medium px-6 py-3 rounded-lg"
     >
         Go to Test
     </a>

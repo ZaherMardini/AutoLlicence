@@ -13,7 +13,8 @@ class Application extends Model
   public static $columns = [
       'ID' => 'id',
       'Person ID' => 'person_id',
-      'Application Type (Service)' => 'application_type_id',
+      'Person name' => 'person_name',
+      'Application Type (Service)' => 'service',
       'Status' => 'status',
       'Fees' => 'fees'
   ];

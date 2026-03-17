@@ -23,7 +23,6 @@ class StoreApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
-      dd($this->request);
       return [
         'person_id' => ['required', 'exists:people,id'],
         'application_type_id' => ['required', 'exists:application_types,id',

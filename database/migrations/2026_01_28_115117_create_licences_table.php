@@ -17,7 +17,7 @@ return new class extends Migration
     {
       Schema::create('licences', function (Blueprint $table) {
         $table->id();
-        $table->string('licence_number')->unique();
+        $table->string('licence_number');
         $table->foreignIdFor(LicenceClass::class)->nullable(false);
         $table->foreignIdFor(Driver::class)->nullable(false);
         $table->foreignIdFor(Person::class)->index()->nullable(false);

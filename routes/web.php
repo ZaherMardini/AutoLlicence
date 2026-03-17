@@ -53,17 +53,17 @@ Route::middleware('auth')->group(function () {
   Route::post('/LocalLicences/store',[LocalLicenceController::class, 'store'])->name('localLicence.store');
   // Application Types & LDL
 
-  // Issued Licence
-  Route::get('/licence/find',                       [LicenceController::class, 'find'])         ->name('licence.find');
-  Route::get('/licence/filter',                     [LicenceController::class, 'filter'])       ->name('licence.filter');
-  Route::get('/licence/{licence:licence_number}',   [LicenceController::class, 'show'])->where('licence', '^LIC-\d{4}-\d{5}$')->name('licence.show');
-  Route::get('/licence/{licence}/operations',       [LicenceController::class, 'operations'])   ->name('licence.operations');
-  Route::post('/licence/{localLicence}/create',     [LicenceController::class, 'store'])        ->name('licence.store');
-  Route::patch('/licence/{licence}/detainRelease',  [LicenceController::class, 'detainRelease'])->name('licence.detainRelease');
-  Route::patch('/licence/{licence}/release',        [LicenceController::class, 'release'])      ->name('licence.release');
-  Route::post('/licence/{licence}/renew',           [LicenceController::class, 'renew'])        ->name('licence.renew');
-  Route::post('/licence/{licence}/replace',         [LicenceController::class, 'replace'])      ->name('licence.replace');
-  // Issued Licence
+  // Licence operations
+  Route::get('/licence/find',                                  [LicenceController::class, 'find'])                    ->name('licence.find');
+  Route::get('/licence/filter',                                [LicenceController::class, 'filter'])                  ->name('licence.filter');
+  Route::get('/licence/{licence:licence_number}',              [LicenceController::class, 'show'])                    ->where('licence', '^LIC-\d{4}-\d{5}$')->name('licence.show');
+  Route::get('/licence/{licence}/operations',                  [LicenceController::class, 'operations'])              ->name('licence.operations');
+  Route::post('/licence/{localLicence}/create',                [LicenceController::class, 'store'])                   ->name('licence.store');
+  Route::patch('/licence/{licence}/detainRelease',             [LicenceController::class, 'detainRelease'])           ->name('licence.detainRelease');
+  Route::patch('/licence/{licence}/renew',                     [LicenceController::class, 'renew'])                   ->name('licence.renew');
+  Route::post('/licence/{old_licence}/replace',                     [LicenceController::class, 'replace'])                   ->name('licence.replace');
+  Route::post('/licenceOperationApplication/{licence}/{applicationType}',    [LicenceController::class, 'createOperationApplication'])    ->name('licence.createOperationApplication');
+  // Licence operations
 
   // Applications
   Route::get('/applications', [ApplicationsController::class, 'index'])        ->name('applications.index');
@@ -72,13 +72,13 @@ Route::middleware('auth')->group(function () {
   // Applications
   
   // Test appointments
-  Route::get('/appointments',                     [TestAppointmentController::class, 'index'] )->name('appointments.index');
+  Route::get('/appointments',                                  [TestAppointmentController::class, 'index'] )->name('appointments.index');
   Route::get('/appointments/{localLicence}/{testType}/create', [TestAppointmentController::class, 'create'])->name('appointments.create');
-  Route::post('/appointments/{licence_id}',       [TestAppointmentController::class, 'store'] )->name('appointments.store');
-  Route::get('/appointments/find',       [TestAppointmentController::class, 'find'] )->name('appointments.find');
-  Route::get('/appointments/{licence_id}/edit',   [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
-  Route::post('/appointments/{licence_id}/update',[TestAppointmentController::class, 'update'])->name('appointments.update');
-  Route::post('/appointments/{licence_id}/cancel',[TestAppointmentController::class, 'cancel'])->name('appointments.cancel');
+  Route::post('/appointments/{licence_id}',                    [TestAppointmentController::class, 'store'] )->name('appointments.store');
+  Route::get('/appointments/find',                             [TestAppointmentController::class, 'find']  )->name('appointments.find');
+  Route::get('/appointments/{licence_id}/edit',                [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
+  Route::post('/appointments/{licence_id}/update',             [TestAppointmentController::class, 'update'])->name('appointments.update');
+  Route::post('/appointments/{licence_id}/cancel',             [TestAppointmentController::class, 'cancel'])->name('appointments.cancel');
   // Test appointments
   
   // Test

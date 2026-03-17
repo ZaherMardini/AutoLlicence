@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Global\BaseApplicationFee;
+use App\Global\BaseQuery;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Models\Application;
-use Illuminate\Http\Request;
+use App\Models\ApplicationType;
 
 class ApplicationsController extends Controller
 {
   public function index(){
-    $items = Application::latest()->get();
+    $items = BaseQuery::applications()->get();
     $columns = Application::$columns;
+    foreach($items as $item){
+      $item['fees'] += BaseApplicationFee::$fee;
+    }
     return view('Applications.index', compact('columns', 'items'));
   }
   public function store(StoreApplicationRequest $request){

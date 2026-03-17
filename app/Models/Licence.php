@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ApplicationStatus;
+use App\Enums\ApplicationTypes;
+use App\Enums\LicenceActions;
 use App\Enums\LicenceStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +31,23 @@ class Licence extends Model
       'Expiry Date'    => 'expiry_date',
       'Status'         => 'status',
     ];
+    public static $action2TypeId = [
+      LicenceActions::release->value => ApplicationTypes::ReleaseDetained->value,
+      LicenceActions::renew->value => ApplicationTypes::RenewLicence->value,
+      LicenceActions::lost->value => ApplicationTypes::LostReplacement->value,
+      LicenceActions::damaged->value => ApplicationTypes::DamagedReplacement->value,
+    ];
+    public static function applicationExists(Licence $licence, int $typeId){
+      return 
+      LicenceOperationApplication
+        ::where('licence_id', $licence['id'])
+        ->where('application_type_id', $typeId)
+        ->whereHas('application', function($q){
+          $q->where('status', '=',ApplicationStatus::New->value)
+          ->orWhere('status', '=', ApplicationStatus::Pending->value);
+      })
+      ->exists();
+    }
     public static function searchBy(){
       return collect(Self::$columns)->except('Class')->toArray();
     }
@@ -42,6 +62,9 @@ class Licence extends Model
     }
     public function isDetained(){
       return $this['status'] === LicenceStatus::detained->value;
+    }
+    public function isDeactivated(){
+      return $this['status'] === LicenceStatus::deactivated->value;
     }
     public function isExpired(){
       $expiryDate = Carbon::parse($this['expiry_date']);

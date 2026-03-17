@@ -2,6 +2,7 @@
 
 namespace App\Global;
 
+use App\Enums\ApplicationTypes;
 use App\Models\Country;
 
 class Menus
@@ -12,38 +13,21 @@ class Menus
         'options' => [
 
             [
-                'label' => 'Application Types',
-                'route' => 'applicationTypes.index',
-            ],
-
-            [
                 'label' => 'Applications',
-                'route' => 'applications.index',
+                'children' => 
+                [ 
+                  ['label' => 'Application List', 'route' => 'applications.index' ],
+                  ['label' => 'Application Types', 'route' => 'applicationTypes.index' ],
+                ],
             ],
-
             [
-                'label' => 'New local driving licence',
-                'route' => 'localLicence.create',
-            ],
-
-            [
-                'label' => 'Show licence info',
-                'route' => 'localLicence.show',
-            ],
-
-            [
-                'label' => 'Local driving licences',
-                'route' => 'localLicence.index',
-            ],
-
-            [
-                'label' => 'Replacement for damaged licence',
-                'route' => 'localLicence.create',
-            ],
-
-            [
-                'label' => 'Replacement for lost licence',
-                'route' => 'localLicence.create',
+              'label' => 'Local driving licence (LDL)',
+              'children' => 
+              [ 
+                ['label' => 'Applications List',   'route' => 'localLicence.index'],
+                ['label' => 'New LDL application', 'route' => 'localLicence.create'],
+                ['label' => 'Application details', 'route' => 'localLicence.show' ],
+              ],
             ],
         ],
     ];
@@ -51,12 +35,10 @@ class Menus
 
     public static $people = [
         'title' => 'People',
-
         'options' => [
-
             [
-                'label' => 'People info',
-                'route' => 'person.index',
+            'label' => 'People info',
+              'route' => 'person.index',
             ],
 
             [
@@ -79,9 +61,7 @@ class Menus
 
     public static $users = [
         'title' => 'Users',
-
         'options' => [
-
             [
                 'label' => 'Users info',
                 'route' => 'user.index',
@@ -99,7 +79,40 @@ class Menus
         ],
     ];
 
+    public static function licenceOperations(int $licenceId) {
+      $release = ApplicationTypes::ReleaseDetained->value;
+      $renew = ApplicationTypes::RenewLicence->value;
+      $lost = ApplicationTypes::LostReplacement->value;
+      $damaged = ApplicationTypes::DamagedReplacement->value;
+      
+      $releaseRoute = "/licenceOperationApplication/{$licenceId}/{$release}";
+      $lostRoute    = "/licenceOperationApplication/{$licenceId}/{$lost}";
+      $renewRoute   = "/licenceOperationApplication/{$licenceId}/{$renew}";
+      $damagedRoute = "/licenceOperationApplication/{$licenceId}/{$damaged}";
 
+      return 
+      [
+        'title' => 'Licence Services Application',
+        'options' => [
+          [
+            'label' => 'Release detained licence',
+            'route' => $releaseRoute,
+          ],
+          [
+            'label' => 'Renew licence',
+            'route' => $renewRoute,
+          ],
+          [
+            'label' => 'Rplacement for damaged',
+            'route' => $damagedRoute,
+          ],
+          [
+            'label' => 'Replacement for lost',
+            'route' => $lostRoute,
+          ],
+        ]
+      ];
+    }
     public static $tests = [
         'title' => 'Schedule tests',
 

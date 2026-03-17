@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ApplicationTypes;
 use App\Models\Licence;
+use App\Rules\LicenceOperatisonRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RenewLicenceRequest extends FormRequest
@@ -12,7 +14,7 @@ class RenewLicenceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,23 +24,45 @@ class RenewLicenceRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-          'licence_action' => ['required'],
-          'licence_id' => ['required', 'exists:licences,id'],
-        ];
+      // dd($this->toArray());
+      // return LicenceOperatisonRules::baseRules();
+    return [
+      'licence_renew_service' => ['required'],
+      'licence_id' => ['required', 'exists:licences,id'],
+    ];
+
+    }
+    public function detainedLicenceCase($validator){
+      return 
+      $validator->errors()->add(
+        'licence_renew_service',
+        'Release licence first.'
+      );
+    }
+    public function ExpiredLicenceCase($validator){
+      return 
+      $validator->errors()->add(
+        'licence_renew_service',
+        'Licence is not expired.'
+      );
     }
     public function withValidator($validator){
       $validator->after(function($validator){
-        if($validator->errors()->has('licence_action')){
+        if($validator->errors()->has('licence_renew_service')){
           return;
         }
         $licence = Licence::findOrFail($this->input('licence_id'));
-        if($licence->isDetained()){
-          $validator->errors()->add(
-            'licence_action',
-            'This licence is already detained.'
-          );
+        if($licence->isDeactivated()){
+          return LicenceOperatisonRules::deactivatedLicenceCase($validator, 'licence_renew_service');
         }
+        if(!$licence->isExpired()){
+          return self::ExpiredLicenceCase($validator);
+        }
+        if($licence->isDetained()){
+          return self::detainedLicenceCase($validator);
+        }
+        $this['licence_service'] = ApplicationTypes::RenewLicence->value;
+        LicenceOperatisonRules::operationApplicationExists($this, $validator, $licence);
       });
     }
 }

@@ -14,13 +14,19 @@ $statusColors = [
     status:       @js($licence['status']),
     statusColors: @js($statusColors),
     statusClass:  @js($statusColors[$status] ?? $statusColors['Expired']),
-    get route() { return `/licence/${this.licence?.id}/operations` },
     handleStatusColors(){
       this.status = this.licence?.status;
       this.statusClass = this.statusColors[this.status] ?? this.statusColors['Expired'];
     },
+    get setImage(){
+      if (this.licence?.image){
+        return '/' + this.licence.image.replace(/^\/+/, '')
+      } 
+      return '/images/defaults/male.png';
+    },
+
   }"
-  @licence-card-updated.window="licence = event.detail; handleStatusColors(); route"
+  @licence-card-updated.window="licence = event.detail; handleStatusColors();"
 >
 
 <div {{ $attributes }} style="
@@ -53,8 +59,7 @@ $statusColors = [
 
         <img
             crossorigin="anonymous"
-            x-bind:src="licence?.image ?? '/images/defaults/male.png'"
-            src="/images/defaults/male.png"
+            x-bind:src="setImage"
             alt="licence holder"
             style="
                 width:90px;
@@ -120,23 +125,4 @@ $statusColors = [
     </div>
 
 </div>
-
-@if (!$hideOperationsButton)
-<div style="margin-top:12px;">
-  <a x-bind:href="route"
-     style="
-        display:block;
-        text-align:center;
-        padding:10px;
-        border-radius:8px;
-        background:#3b82f6;
-        color:white;
-        text-decoration:none;
-        font-weight:600;
-     ">
-     Licence operations
-  </a>
-</div>
-@endif
-
 </div>
