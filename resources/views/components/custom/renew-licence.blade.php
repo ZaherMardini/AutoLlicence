@@ -1,6 +1,7 @@
 @props(['licence', 'services', 'fines'])
 @php
   $formAction = "/licence/{$licence['id']}/renew";
+  dd();
 @endphp
 <div class="max-w-md w-full bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-2xl shadow-xl p-6 space-y-6">
 

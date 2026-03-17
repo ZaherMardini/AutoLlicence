@@ -10,13 +10,13 @@ class LicenceOperatisonRules{
       'licence_id' => ['required', 'exists:licences,id'],
     ];
   }
-  public static function operationApplicationExists($request, $validator, $licence){
+  public static function operationApplicationExists($request, $validator, $licence, string $errorPlaceHolder = 'licence_service'){
     $typeId = $request->input('licence_service');
     $applicationExists = Licence::applicationExists($licence, $typeId);
     if(!$applicationExists){
       $errorMessage = 'You need an application for this service.';
       if($errorMessage){
-        $validator->errors()->add('licence_action', $errorMessage);
+        $validator->errors()->add($errorPlaceHolder, $errorMessage);
       }
     }
   }

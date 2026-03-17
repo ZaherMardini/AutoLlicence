@@ -18,6 +18,13 @@ $statusColors = [
       this.status = this.licence?.status;
       this.statusClass = this.statusColors[this.status] ?? this.statusColors['Expired'];
     },
+    get setImage(){
+      if (this.licence?.image){
+        return '/' + this.licence.image.replace(/^\/+/, '')
+      } 
+      return '/images/defaults/male.png';
+    },
+
   }"
   @licence-card-updated.window="licence = event.detail; handleStatusColors();"
 >
@@ -52,8 +59,7 @@ $statusColors = [
 
         <img
             crossorigin="anonymous"
-            x-bind:src="licence?.image ?? '/images/defaults/male.png'"
-            src="/images/defaults/male.png"
+            x-bind:src="setImage"
             alt="licence holder"
             style="
                 width:90px;

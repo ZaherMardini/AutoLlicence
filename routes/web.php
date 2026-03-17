@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/licence/{localLicence}/create',                [LicenceController::class, 'store'])                   ->name('licence.store');
   Route::patch('/licence/{licence}/detainRelease',             [LicenceController::class, 'detainRelease'])           ->name('licence.detainRelease');
   Route::patch('/licence/{licence}/renew',                     [LicenceController::class, 'renew'])                   ->name('licence.renew');
+  Route::post('/licence/{old_licence}/replace',                     [LicenceController::class, 'replace'])                   ->name('licence.replace');
   Route::post('/licenceOperationApplication/{licence}/{applicationType}',    [LicenceController::class, 'createOperationApplication'])    ->name('licence.createOperationApplication');
   // Licence operations
 

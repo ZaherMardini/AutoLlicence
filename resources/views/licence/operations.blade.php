@@ -4,7 +4,7 @@
       <x-driving-licence-card :licence="$licence"/>
       <a class="font-bold text-white bg-blue-700 p-2 rounded-md w-fit"
         href="{{ route('licence.show', compact('licence')) }}">
-        Applications page
+        Return to applications page
       </a>
     </div>
     <x-custom.detain-release-licence :licence="$licence" :services="$services" :fines="$fines"/>

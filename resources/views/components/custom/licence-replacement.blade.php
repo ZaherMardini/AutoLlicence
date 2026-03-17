@@ -11,18 +11,18 @@
         </p>
     </div>
 
-    <form method="POST" action="#" class="space-y-5">
+    <form form method="POST" action="{{ route('licence.replace', ['old_licence' => $licence['id']]) }}" class="space-y-5">
         @csrf
 
         <!-- Replacement Options -->
         <div class="space-y-3">
-
+            <input type="hidden" name="licence_id" value="{{ $licence['id'] }}">
             <!-- Lost -->
             <label class="flex items-center gap-3 p-4 rounded-xl border border-zinc-800 bg-zinc-900 hover:border-amber-500/60 hover:bg-zinc-800/70 transition cursor-pointer">
 
                 <input
                     type="radio"
-                    name="licence_action"
+                    name="licence_replacement_service"
                     value="lost"
                     class="w-4 h-4 text-amber-500 border-zinc-700 bg-zinc-900 focus:ring-amber-500"
                 >
@@ -32,13 +32,13 @@
                 </span>
 
             </label>
-
+            <x-input-error :messages="$errors->get('licence_replacement_service')"/>
             <!-- Damaged -->
             <label class="flex items-center gap-3 p-4 rounded-xl border border-zinc-800 bg-zinc-900 hover:border-amber-500/60 hover:bg-zinc-800/70 transition cursor-pointer">
 
                 <input
                     type="radio"
-                    name="licence_action"
+                    name="licence_replacement_service"
                     value="damaged"
                     class="w-4 h-4 text-amber-500 border-zinc-700 bg-zinc-900 focus:ring-amber-500"
                 >
@@ -48,7 +48,6 @@
                 </span>
 
             </label>
-
         </div>
 
         <!-- Fees Preview -->

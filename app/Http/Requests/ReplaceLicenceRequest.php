@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Licence;
+use App\Models\LicenceOperationApplication;
+use App\Rules\LicenceOperatisonRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReplaceLicenceRequest extends FormRequest
@@ -11,7 +14,7 @@ class ReplaceLicenceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +24,23 @@ class ReplaceLicenceRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+      // dd($this->toArray());
+      return [
+        'licence_id' => ['required', 'exists:licences,id'],
+        'licence_replacement_service' => ['required'],
+      ];
+    }
+    public function withValidator($validator){
+      $validator->after(function($validator){
+        if($validator->errors()->has('licence_replacement_service')){
+            return;
+        }
+        // dd('hit after validation');
+        $licence = Licence::findOrFail($this->input('licence_id'));
+        $typeId = Licence::$action2TypeId[ $this['licence_replacement_service'] ];
+        $this['licence_service'] = $typeId;
+        // dd($this['licence_service']);
+        LicenceOperatisonRules::operationApplicationExists($this, $validator, $licence, 'licence_replacement_service');
+      });
     }
 }

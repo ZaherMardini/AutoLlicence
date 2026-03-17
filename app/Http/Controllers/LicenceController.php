@@ -12,6 +12,7 @@ use App\Global\Menus;
 use App\Global\Methods;
 use App\Http\Requests\DetainReleaseLicenceRequest;
 use App\Http\Requests\RenewLicenceRequest;
+use App\Http\Requests\ReplaceLicenceRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\StoreLicenceRequest;
 use App\Http\Requests\StoreLicenceServiceRequest;
@@ -162,6 +163,24 @@ class LicenceController extends Controller
       'issue_reason' => LicenceIssueReasons::renewed->value
     ]);
     LicenceOperationApplication::completeApplication($licence, ApplicationTypes::RenewLicence->value);
+    return redirect()->route('applications.index');
+  }
+  public function replace(Licence $old_licence, ReplaceLicenceRequest $request){
+    $attributes = $old_licence->toArray();
+    $info = $request->validated();
+    unset($attributes['id']);
+    $attributes['issue_reason'] = "Replacement for {$info['licence_replacement_service']} licence"; 
+    // dd([$old_licence->toArray(), $attributes, $request->validated()]);
+    Licence::create($attributes);
+    $old_licence->update(['status' => LicenceStatus::deactivated->value]);
+    $typeId = -1;
+    if($info['licence_replacement_service'] === 'lost'){
+      $typeId = ApplicationTypes::LostReplacement->value;
+    }
+    else{
+      $typeId = ApplicationTypes::DamagedReplacement->value;
+    }
+    LicenceOperationApplication::completeApplication($old_licence, $typeId);
     return redirect()->route('applications.index');
   }
 }

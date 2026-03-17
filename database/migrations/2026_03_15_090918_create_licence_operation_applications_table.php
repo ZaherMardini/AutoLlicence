@@ -3,7 +3,6 @@
 use App\Models\Application;
 use App\Models\ApplicationType;
 use App\Models\Licence;
-use App\Models\LicenceOperation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
