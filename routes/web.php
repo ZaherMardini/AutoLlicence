@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\permissions;
 use App\Http\Controllers\ApplicationsController;
 use App\Http\Controllers\ApplicationTypesController;
 use App\Http\Controllers\LicenceController;
@@ -22,9 +23,15 @@ Route::get('/test', function () {
   $countries = Country::get();
   return view('test', ['countries' => $countries]);
 })->middleware(['auth', 'verified'])->name('test');
+
 Route::get('/dashboard', function () {
   return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::middleware(['auth', 'can:hasAccessTo,' . permissions::View->value])->group(function () {
+//   Route::get('/people', [PersonController::class, 'index'])->name('person.index');
+//   // dd(Auth::user());
+// });
 
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

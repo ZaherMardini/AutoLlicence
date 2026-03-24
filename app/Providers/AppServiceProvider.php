@@ -39,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
         return $pass;
       });
 
-      // Model::withCasts(['created_at' => 'date:Y-m-d']);
+      Gate::define('hasAccessTo', function ($user, $permission) {
+        dd($user);
+        $result = ($user['permissions'] & $permission) === $permission;   
+        return $result;
+      });
     }
 }
