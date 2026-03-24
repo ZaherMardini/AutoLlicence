@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Person;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -18,7 +19,9 @@ class UserController extends Controller
     return $this->service->index();
   }
   public function create(){
-    return view('users.create');
+    $searchBy = Person::searchBy();
+    $searchRoutes = Person::$searchRoutes;
+    return view('users.create', compact('searchBy', 'searchRoutes'));
   }
 
   public function store(StoreUserRequest $request)

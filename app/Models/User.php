@@ -51,6 +51,9 @@ class User extends Authenticatable
   public function addPermission(int $permission){
     $this['permissions'] = $this['permissions'] | $permission;
   }
+  public function hasPermission(int $permission){
+    return ($this['permissions'] & $permission) === $permission;
+  }
   public function person(){
     return $this->belongsTo(Person::class);
   }

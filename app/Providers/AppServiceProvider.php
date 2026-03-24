@@ -38,11 +38,5 @@ class AppServiceProvider extends ServiceProvider
         }
         return $pass;
       });
-
-      Gate::define('hasAccessTo', function ($user, $permission) {
-        dd($user);
-        $result = ($user['permissions'] & $permission) === $permission;   
-        return $result;
-      });
     }
 }
