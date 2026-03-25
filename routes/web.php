@@ -95,9 +95,13 @@ Route::middleware(['auth', 'hasAccessTo:' . permissions::Edit->value])->group(fu
   Route::post('/people/update/{person}', [PersonController::class, 'update'])->name('person.update');
 // People
 // Users
-  Route::get('/users/edit',           [UserController::class, 'edit'])->name('user.edit');
+  Route::get('/users/edit',[UserController::class, 'edit'])->name('user.edit');
+  Route::get('/users/permissions',[UserController::class, 'editPermissions'])->name('user.editPermissions');
+  Route::post('/users/{user}/permissions',[UserController::class, 'storePermissions'])->name('user.storePermissions');
   Route::post('/users/update/{user}', [UserController::class, 'update'])->name('user.update');
-// Users
+  Route::post('/users/store',         [UserController::class, 'store'])->name('user.store');
+  Route::get('/users/create',         [UserController::class, 'create'])->name('user.create');
+  // Users
 // Test appointments
   Route::get('/appointments/{licence_id}/edit',                [TestAppointmentController::class, 'edit']  )->name('appointments.edit');
   Route::post('/appointments/{licence_id}/update',             [TestAppointmentController::class, 'update'])->name('appointments.update');
@@ -119,7 +123,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/localLicences/find',   [LocalLicenceController::class, 'find'])->name('localLicence.find');
   Route::get('/localLicences/show',   [LocalLicenceController::class, 'show'])->name('localLicence.show');
 
-  Route::post('/users/store',         [UserController::class, 'store'])->name('user.store');
-  Route::get('/users/create',         [UserController::class, 'create'])->name('user.create');
+  // Route::post('/users/store',         [UserController::class, 'store'])->name('user.store');
+  // Route::get('/users/create',         [UserController::class, 'create'])->name('user.create');
   
   require __DIR__.'/auth.php';

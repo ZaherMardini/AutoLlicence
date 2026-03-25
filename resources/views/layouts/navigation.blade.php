@@ -1,5 +1,7 @@
 @php
-  use App\Global\Menus
+  use App\Global\Menus;
+  use Illuminate\Support\Facades\Auth;
+  $user = Auth::user();
 @endphp
 <nav x-data="{ open: false }" class="dark:bg-gray-800">
     <!-- Primary Navigation Menu -->
@@ -21,6 +23,11 @@
                   <x-custom.dropdown-button :namedRoutes="true" :menuItems="Menus::$applications['options']" :title="Menus::$applications['title']"/>
                   <x-custom.dropdown-button :menuItems="Menus::$people['options']" :title="Menus::$people['title']"/>
                   <x-custom.dropdown-button :menuItems="Menus::$users['options']" :title="Menus::$users['title']"/>
+                  @if ($user->hasPermission(15))
+                  <x-nav-link :href="route('user.editPermissions')">
+                    {{ __('Permissions') }}
+                  </x-nav-link>
+                  @endif
                 </div>
             </div>
 
