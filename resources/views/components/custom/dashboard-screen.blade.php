@@ -1,15 +1,19 @@
 <!-- resources/views/components/dashboard.blade.php -->
-
+@php
+  use Illuminate\Support\Facades\Auth;
+  $user = Auth::user();
+  $person = $user->person;
+@endphp
 <div class="min-h-screen bg-slate-950 text-slate-200 p-6 m-3 rounded-lg border border-blue-400">
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-2xl font-semibold text-white">Dashboard</h1>
-            <p class="text-slate-400 text-sm">Driving Licence Management Overview</p>
+            <h1 class="text-2xl font-semibold text-white">AutoLicence</h1>
+            <p class="text-slate-400 text-sm">Driving Licence Management System</p>
         </div>
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold shadow">
-              {{-- <img src="{{ $user['image'] }}" alt=""> --}}
+            <div class="overflow-hidden w-30 h-30 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold shadow">
+              <img src="{{ $person['image_path'] }}" alt="">
             </div>
         </div>
     </div>
