@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePersonRequest;
 use App\Enums\CardMode;
+use App\Enums\permissions;
 use App\Global\Current;
 use App\Http\Requests\UpdatePersonRequest;
 use App\Models\Person;
 use App\Services\PersonService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PersonController extends Controller
 {

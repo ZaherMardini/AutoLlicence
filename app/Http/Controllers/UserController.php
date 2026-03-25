@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePermissionsRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Person;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -18,16 +20,27 @@ class UserController extends Controller
     return $this->service->index();
   }
   public function create(){
-    return view('users.create');
+    $searchBy = Person::searchBy();
+    $searchRoutes = Person::$searchRoutes;
+    return view('users.create', compact('searchBy', 'searchRoutes'));
   }
 
-  public function store(StoreUserRequest $request)
-    {
+  public function store(StoreUserRequest $request){
       $userProps = $request->validated();        
       User::create($userProps);
       return redirect(route('user.index', absolute: false));
     }
-
+  public function editPermissions(){
+    $searchBy = User::searchBy();
+    $searchRoutes = User::$searchRoutes;
+    return view('users.permissions', compact('searchBy', 'searchRoutes'));
+  }
+  public function storePermissions(User $user, StorePermissionsRequest $request){
+    $info = $request->validated();
+    $permissions = $info['newPermissions'];
+    $user->update(['permissions' => $permissions]);
+    return redirect()->route('user.editPermissions');
+  }
   public function filter(Request $request){
     return $this->service->filter($request);
   }

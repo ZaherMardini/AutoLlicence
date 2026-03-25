@@ -1,6 +1,6 @@
 <x-guest-layout>
-  <div x-data="{person: ''}"
-  @items-updated.window = "person = event.detail"
+  <div x-data="{ person: null }"
+  @person-id-updated.window = "person = event.detail"
   >
   <form method="POST" action="{{ route('register') }}">
     @csrf
@@ -42,7 +42,7 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
             
-            <input type="hidden" name="person_id" x-bind:value="person ? person.id : ''"/>
+            <input type="hidden" name="person_id" x-bind:value="person?.id"/>
             <x-input-error :messages="$errors->get('person_id')" class="mt-2" />
             <div class="flex gap-3 items-center ml-5">
               <x-input-label value="Activate user"/>        
@@ -63,5 +63,11 @@
         </div>
     </form>
   </x-guest-layout>
+  @php
+    use App\Models\Person;
+    $searchBy = Person::searchBy();
+    $searchRoutes = Person::$searchRoutes;
+  @endphp
+  <x-custom.search event_name="person-id-updated" :filter="false" :routes="$searchRoutes" :searchBy="$searchBy"/>
   <x-custom.person-card mode="read"/>
 </div>

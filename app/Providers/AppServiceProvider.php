@@ -38,7 +38,5 @@ class AppServiceProvider extends ServiceProvider
         }
         return $pass;
       });
-
-      // Model::withCasts(['created_at' => 'date:Y-m-d']);
     }
 }
