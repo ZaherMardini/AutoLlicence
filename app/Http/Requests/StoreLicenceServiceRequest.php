@@ -36,7 +36,7 @@ class StoreLicenceServiceRequest extends FormRequest
         if($licence->isDeactivated()){
           return LicenceOperatisonRules::deactivatedLicenceCase($validator, 'licence_id');
         }
-        if($licence->isExpired() && $this['service_type'] !== ApplicationTypes::RenewLicence->value){
+        if($licence->isExpired() && $this['service_type'] != ApplicationTypes::RenewLicence->value){
           return $validator->errors()->add('licence_id', 'Licence is expired, only renew service allowed.');
         }
         LicenceOperatisonRules::operationApplicationDuplicated($this, $validator, $licence);
