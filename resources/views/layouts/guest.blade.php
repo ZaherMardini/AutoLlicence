@@ -20,13 +20,13 @@
           class="min-h-screen pt-6 sm:pt-0 flex flex-col justify-center items-end
             bg-cover bg-left bg-no-repeat bg-fg-brand
             dark:bg-gray-900">
-        <div
+        {{-- <div
           class="w-fit mr-3 px-8 py-6
           bg-blue-600/30 backdrop-blur-lg  
           border border-white/20
           shadow-xl overflow-hidden sm:rounded-2xl">
-          {{ $slot }}
-        </div>
+        </div> --}}
+        {{ $slot }}
       </div>
     </body>
 </html>

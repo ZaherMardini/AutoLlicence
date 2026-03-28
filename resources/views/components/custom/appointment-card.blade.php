@@ -38,8 +38,18 @@ x-data="{
 
   <!-- LICENCE INFO -->
   <div class="space-y-3 text-sm text-slate-300 mb-6">
+    <div class="flex flex-wrap gap-2   border-b border-slate-700 pb-3">
+      <span class="text-slate-400">Person ID:</span>
+      <span class="font-medium text-white">{{ $person['id'] }}</span>
+      <span class="text-slate-500">|</span>
+      <span class="text-slate-400">Name:</span>
+      <span class="font-medium text-white">{{ $person['name'] }}</span>
+      <span class="text-slate-500">|</span>
+      <span class="text-slate-400">Test Fees:</span>
+      <span class="font-medium text-white">{{ $test_type['fees'] }}</span>
+    </div>
 
-    <div class="flex flex-wrap gap-2 border-b border-slate-700 pb-3">
+    <div class="flex flex-wrap gap-2">
       <span class="text-slate-400">Licence ID:</span>
       <span class="font-medium text-white">{{ $localLicence['id'] }}</span>
 
@@ -48,28 +58,12 @@ x-data="{
       <span class="text-slate-400">Class:</span>
       <span class="font-medium text-white">{{ $localLicence['licenceClass']['title'] }}</span>
 
-      <span class="text-slate-500">|</span>
+      {{-- <span class="text-slate-500">|</span> --}}
 
-      <span class="text-slate-400">Fees:</span>
-      <span class="font-medium text-white">{{ $localLicence['licenceClass']['fees'] }}$</span>
+      {{-- <span class="text-slate-400">Application Fees:</span>
+      <span class="font-medium text-white">{{ $localLicence['licenceClass']['fees'] }}$</span> --}}
     </div>
-
-    <div class="flex flex-wrap gap-2">
-      <span class="text-slate-400">Person ID:</span>
-      <span class="font-medium text-white">{{ $person['id'] }}</span>
-
-      <span class="text-slate-500">|</span>
-
-      <span class="text-slate-400">Name:</span>
-      <span class="font-medium text-white">{{ $person['name'] }}</span>
-    </div>
-
   </div>  
-
-    <!-- FORM -->
-    {{-- <form id="addEdit" method="post" x-bind:action="formRoute_addEdit" class="space-y-6">
-      @csrf
-    </form> --}}
 
     <form id="add_edit_cancel" method="post">
         @csrf
@@ -153,7 +147,7 @@ x-data="{
         href="{{ $path }}"
         class="m-2 inline-block bg-green-600/90 border border-green-500 text-white text-sm font-medium px-6 py-3 rounded-lg"
     >
-        Go to Test
+      Test preview
     </a>
   </div>
 </div>

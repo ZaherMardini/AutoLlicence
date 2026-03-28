@@ -30,7 +30,6 @@
         <ul class="p-2 text-sm text-gray-200 font-medium"
             aria-labelledby="{{ $dropdownDefaultButtonId }}">
             @foreach ($menuItems as $item)
-              {{-- {{ dd($menuItems) }} --}}
                 <x-custom.menu-item :item="$item" :enableNamedRoutes="$enableNamedRoutes" />
             @endforeach
         </ul>

@@ -13,7 +13,7 @@
   $searchBy = Person::searchBy();
 @endphp
 @props(['mode' => CardMode::new->value, 'initial_id'])
-<div class="flex flex-col justify-between bg-gray-900 p-6 border border-gray-700 rounded-xl shadow-lg"
+<div class="flex flex-col justify-between p-6 min-w-150 bg-blue-600/30 backdrop-blur-lg rounded-xl shadow-lg"
     x-data="{
     mode: @js($mode),
     person: null,
@@ -54,7 +54,7 @@
   @person-id-updated.window = "person = event.detail;"
 >
   <h1 class="mb-4 text-2xl font-semibold text-gray-100">{{ $modesLable[$mode] }}</h1>
-  <a x-show="!isNewMode" href="{{ route('person.create') }}" class="w-fit rounded-md mb-4 text-md font-semibold bg-green-400 p-2 text-white">Add new person</a>
+  <a x-show="!isNewMode" href="{{ route('person.create') }}" class="w-fit rounded-md mb-4 text-md font-semibold bg-cyan-400 p-2 text-white">Add new person</a>
   <h4 class="mb-6 text-gray-300" x-show="!isNewMode">Person ID: <span x-text="person?.id"></span></h4>
 
   <div class="flex flex-col md:flex-row gap-6">
@@ -163,7 +163,7 @@
 
   <button x-bind:hidden="isReadMode" type="submit" form="form" 
           x-bind:formaction="form_action"
-          class="cursor-pointer mt-6 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+          class="cursor-pointer mt-6 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition">
     Submit
   </button>
 </div>

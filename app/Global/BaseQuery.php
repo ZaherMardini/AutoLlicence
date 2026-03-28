@@ -19,7 +19,7 @@ class BaseQuery{
       'people.name as person_name',
       'application_types.title as service',
       'application_types.id as service_id',
-      'application_types.fees as fees',
+      'applications.fees as fees',
       'applications.status as status',
     );
   }

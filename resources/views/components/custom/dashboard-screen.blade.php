@@ -1,8 +1,14 @@
-<!-- resources/views/components/dashboard.blade.php -->
+@props(['dashboardProps'])
 @php
+  // dd($dashboardProps);
   use Illuminate\Support\Facades\Auth;
   $user = Auth::user();
   $person = $user->person;
+  $statusColor = [
+    'new' => 'text-blue-400',
+    'in progress' => 'text-yellow-400',
+    'completed' => 'text-green-400',
+  ];
 @endphp
 <div class="min-h-screen bg-slate-950 text-slate-200 p-6 m-3 rounded-lg border border-blue-400">
     <!-- Header -->
@@ -22,22 +28,22 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-slate-900 p-5 rounded-2xl shadow-lg border border-slate-800">
             <p class="text-sm text-slate-400">Total Licences</p>
-            <h2 class="text-2xl font-bold text-white mt-2">1,245</h2>
+            <h2 class="text-2xl font-bold text-white mt-2">{{ $dashboardProps['totalLicences'] }}</h2>
         </div>
 
         <div class="bg-slate-900 p-5 rounded-2xl shadow-lg border border-slate-800">
             <p class="text-sm text-slate-400">Pending Applications</p>
-            <h2 class="text-2xl font-bold text-blue-500 mt-2">87</h2>
+            <h2 class="text-2xl font-bold text-blue-500 mt-2">{{ $dashboardProps['pendingApplications'] }}</h2>
         </div>
 
         <div class="bg-slate-900 p-5 rounded-2xl shadow-lg border border-slate-800">
             <p class="text-sm text-slate-400">Expired Licences</p>
-            <h2 class="text-2xl font-bold text-red-400 mt-2">32</h2>
+            <h2 class="text-2xl font-bold text-red-400 mt-2">{{ $dashboardProps['expiredLicences'] }}</h2>
         </div>
 
         <div class="bg-slate-900 p-5 rounded-2xl shadow-lg border border-slate-800">
             <p class="text-sm text-slate-400">Renewals This Month</p>
-            <h2 class="text-2xl font-bold text-green-400 mt-2">54</h2>
+            <h2 class="text-2xl font-bold text-green-400 mt-2">{{ $dashboardProps['renewalsThisMonth'] }}</h2>
         </div>
     </div>
 
@@ -48,7 +54,7 @@
         <div class="lg:col-span-2 bg-slate-900 rounded-2xl shadow-lg border border-slate-800 p-6">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-lg font-semibold text-white">Recent Applications</h2>
-                <button class="text-sm text-blue-500 hover:underline">View All</button>
+                <a href="{{ route('applications.index') }}" class="text-sm text-blue-500 hover:underline">View All</a>
             </div>
 
             <div class="overflow-x-auto">
@@ -62,24 +68,13 @@
                         </tr>
                     </thead>
                     <tbody class="text-slate-300">
+                      @foreach ($dashboardProps['recentApplications'] as $recent)
                         <tr class="border-b border-slate-800">
-                            <td class="py-3">John Doe</td>
-                            <td><span class="text-yellow-400">Pending</span></td>
-                            <td>2026-03-15</td>
-                            <td class="text-right"><button class="text-blue-500">View</button></td>
+                          <td class="py-3">{{ $recent['person']['name'] }}</td>
+                          <td><span class="{{ $statusColor[$recent['status']] }}">{{ $recent['status'] }}</span></td>
+                          <td>{{ $recent['created_at'] }}</td>
                         </tr>
-                        <tr class="border-b border-slate-800">
-                            <td class="py-3">Jane Smith</td>
-                            <td><span class="text-green-400">Approved</span></td>
-                            <td>2026-03-14</td>
-                            <td class="text-right"><button class="text-blue-500">View</button></td>
-                        </tr>
-                        <tr>
-                            <td class="py-3">Ali Hassan</td>
-                            <td><span class="text-red-400">Rejected</span></td>
-                            <td>2026-03-13</td>
-                            <td class="text-right"><button class="text-blue-500">View</button></td>
-                        </tr>
+                      @endforeach
                     </tbody>
                 </table>
             </div>
@@ -90,17 +85,21 @@
             <h2 class="text-lg font-semibold text-white mb-4">Quick Actions</h2>
 
             <div class="flex flex-col gap-3">
-                <a class="text-center bg-slate-800 hover:bg-slate-700 transition rounded-xl py-2 text-sm font-medium shadow">
+                <a  href="{{ route('localLicence.create') }}"
+                    class="text-center bg-slate-800 hover:bg-slate-700 transition rounded-xl py-2 text-sm font-medium shadow">
                     Add New Licence
                 </a>
                 <a 
                 type="submit"
-                href="{{ route('applications.index') }}"
+                href="{{ route('person.index') }}"
                 class="text-center bg-slate-800 hover:bg-slate-700 transition rounded-xl py-2 text-sm font-medium">
-                    Review Applications
+                    Review Applicants
                 </a>
-                <a class="text-center bg-slate-800 hover:bg-slate-700 transition rounded-xl py-2 text-sm font-medium">
-                    Generate Reports
+                <a 
+                type="submit"
+                href="{{ route('localLicence.show') }}"
+                class="text-center bg-slate-800 hover:bg-slate-700 transition rounded-xl p-3 text-sm font-medium">
+                    Local licence application details
                 </a>
             </div>
         </div>

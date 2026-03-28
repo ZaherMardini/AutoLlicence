@@ -58,11 +58,11 @@ class TestAppointmentController extends Controller
   public function store(StoreTestAppointmentRequest $request){
     $info = $request->validated();
     $appointment = DB::transaction(function() use($info) {
-      $info['paid_fees'] = TestAppointment::paidFees(TestTypes::VisionTest->value, ApplicationTypes::NewLocalLicence->value);
+      $info['paid_fees'] = TestType::find($info['test_type_id'])['fees'];
       $appointment = TestAppointment::create($info);
       $localLicence = LocalLicence::find($appointment['local_licence_id']);
-      $application = Application::where('id', $localLicence['application_id']);
-      $application->update(['status' => ApplicationStatus::Pending->value]);
+      $application = Application::where('id', $localLicence['application_id'])->first();
+      $application->update(['status' => ApplicationStatus::Pending->value, 'fees' => $application['fees'] + $info['paid_fees']]);
       return $appointment;
     });
     return redirect()->route('appointments.create', ['localLicence' => $appointment['local_licence_id'], 'testType' => $info['test_type_id']]);

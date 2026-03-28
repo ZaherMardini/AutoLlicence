@@ -63,7 +63,7 @@
     <div id="permissions"
         class="w-100 bg-slate-900 border border-slate-800 rounded-2xl m-5 p-6 shadow-lg">
       <h2 class="text-xl font-semibold text-slate-100 mb-6">
-          User <span class="text-cyan" x-text="user?.name"></span> Permissions
+          Adjust User <span class="text-cyan" x-text="user?.name"></span> Permissions
       </h2>
       <div class="space-y-5">
           <!-- Permission Row -->

@@ -96,6 +96,7 @@ class LicenceService{
         $licence->update(['status' => LicenceStatus::new->value]);
         $detained = DetainedLicence::where('licence_id', $licence['id'])->first();
         $releaseApplication = LicenceOperationApplication::getApplication($licence, ApplicationTypes::ReleaseDetained->value);
+        LicenceOperationApplication::completeApplication($licence, ApplicationTypes::ReleaseDetained->value);
         $fine = Fine::findOrFail(FineActions::release->value)['ammount'];
         $detained->update([
           'released_by_user_id' => Auth::id(),

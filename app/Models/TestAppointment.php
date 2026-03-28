@@ -24,7 +24,8 @@ class TestAppointment extends Model
     'Test Result' => 'result'
   ];
   public static function paidFees(int $testTypeId, int $applicationTypeId){
-      return TestType::find($testTypeId)['fees'] + ApplicationType::find($applicationTypeId)['fees'];
+      $type = ApplicationType::find($applicationTypeId);
+      return TestType::find($testTypeId)['fees'];
   }
   public static function isUniqueApplication(int $personId, int $local_licence_id, int $testTypeId){
     $result = TestAppointment::

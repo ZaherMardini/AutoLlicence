@@ -3,6 +3,7 @@
 use App\Enums\permissions;
 use App\Http\Controllers\ApplicationsController;
 use App\Http\Controllers\ApplicationTypesController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LicenceController;
 use App\Http\Controllers\LocalLicenceController;
 use App\Http\Controllers\PersonController;
@@ -10,23 +11,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestAppointmentController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
-use App\Models\Country;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/test', function () {
-  $user = Auth::user();
-  $countries = Country::get();
-  return view('test', ['countries' => $countries]);
-})->middleware(['auth', 'verified'])->name('test');
-
-Route::get('/dashboard', function () {
-  return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'hasAccessTo:' . permissions::View->value])->group(function () {
 // People
@@ -57,6 +48,7 @@ Route::middleware(['auth', 'hasAccessTo:' . permissions::View->value])->group(fu
 
 Route::middleware(['auth', 'hasAccessTo:' . permissions::Create->value])->group(function () {
 // Applications Types & LDL
+  Route::get('/localLicences/show',   [LocalLicenceController::class, 'show'])->name('localLicence.show');
   Route::get('/LocalLicences/create',[LocalLicenceController::class, 'create'])->name('localLicence.create');
   Route::post('/LocalLicences/store',[LocalLicenceController::class, 'store'])->name('localLicence.store');
 // Applications Types & LDL
@@ -117,7 +109,6 @@ Route::middleware('auth')->group(function () {
   Route::get('/people/find',          [PersonController::class, 'find'])->name('person.find');
   Route::get('/localLicences/filter', [LocalLicenceController::class, 'filter'])->name('localLicence.filter');
   Route::get('/localLicences/find',   [LocalLicenceController::class, 'find'])->name('localLicence.find');
-  Route::get('/localLicences/show',   [LocalLicenceController::class, 'show'])->name('localLicence.show');
 
   // Route::post('/users/store',         [UserController::class, 'store'])->name('user.store');
   // Route::get('/users/create',         [UserController::class, 'create'])->name('user.create');

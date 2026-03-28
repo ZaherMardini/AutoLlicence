@@ -9,6 +9,7 @@ use App\Global\Methods;
 use App\Http\Requests\StoreLocalLicenceRequest;
 use App\Models\Application;
 use App\Models\ApplicationType;
+use App\Models\LicenceClass;
 use App\Models\LocalLicence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,27 +46,26 @@ class LocalLicenceService{
     $searchBy = LocalLicence::searchBy();
     $searchRoutes = LocalLicence::$searchRoutes;
     foreach ($items as $item) {
-      // $item['passedTests'] = $item->passedTests(); //bug: items are just collection, not collection of Models
       $item['passedTests'] = BaseQuery::passedTests($item['licence_id']);
     }
-      // dd($items->toArray());
     return view('localLicence.index', compact('items', 'columns', 'searchBy', 'searchRoutes'));
   }
   public function store(StoreLocalLicenceRequest $request){
     DB::transaction(function () use($request) {
-      $type = ApplicationType::findOrFail(ApplicationTypes::NewLocalLicence->value);
       $info = $request->validated();
+      $type = ApplicationType::findOrFail(ApplicationTypes::NewLocalLicence->value);
+      $class = LicenceClass::findOrFail($info['licence_class_id']);
       $applicationProps = [
         'application_type_id' => $type['id'],
         'created_by_user' => Auth::id(),
         'person_id' => $info['person_id'],
-        'fees' => $type['fees'],
+        'fees' => $type['fees'] + $type['base_application_fee'] + $class['fees'],
         'status' => ApplicationStatus::New->value,
       ];
       $application = Application::create($applicationProps);
       $info['application_id'] = $application['id'];
       LocalLicence::create($info);
-      });
+    });
       return redirect()->route('localLicence.index');
   }
   public static function filter(Request $request){

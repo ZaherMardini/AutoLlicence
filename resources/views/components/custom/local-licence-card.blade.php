@@ -141,7 +141,7 @@
         </li>
         <li x-show="local_licence.passedTests === 3" class="p-3">
           <div>
-            <h1 class="text-2xl text-cyan-500 font-bold text-center">All tests passed</h1>
+            <h1 class="text-2xl text-white font-bold text-center">All tests passed</h1>
             <form x-bind:action="localLicenceRoute" method="post">
             @csrf
             <x-text-input type="hidden" name="licence_class_id" x-bind:value="local_licence?.licence_class?.id"/>
@@ -150,12 +150,12 @@
               x-show="!local_licence?.licence_issued"
               type="submit"
               class="cursor-pointer m-2 px-6 py-3 text-lg font-semibold
-                    text-green-400 bg-zinc-800
+                    text-white bg-green-400
                     rounded-xl
-                    border border-zinc-700
-                    shadow-lg shadow-cyan-500/10
+                    border border-green-700
+                    shadow-lg shadow-green-500/10
                     transition-all duration-300
-                    hover:bg-zinc-700 hover:text-cyan-300 hover:shadow-cyan-400/20
+                    hover:bg-green-700 hover:text-cyan-300
                     active:scale-95
                     focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-zinc-900">
               Issue Licence

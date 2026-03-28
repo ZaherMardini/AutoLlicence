@@ -1,5 +1,10 @@
 <x-guest-layout>
     <!-- Session Status -->
+<div
+  class="w-fit mr-3 px-8 py-6
+  bg-blue-600/30 backdrop-blur-lg  
+  border border-white/20
+  shadow-xl overflow-hidden sm:rounded-2xl self-end">
     <div class="self-end w-fit mr-3">
       <x-auth-session-status class="mb-4" :status="session('status')" />
       <form method="POST" action="{{ route('login') }}">
@@ -49,4 +54,5 @@
           </div>
       </form>
     </div>
+</div>
 </x-guest-layout>
