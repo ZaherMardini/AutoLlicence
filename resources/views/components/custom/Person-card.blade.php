@@ -13,7 +13,7 @@
   $searchBy = Person::searchBy();
 @endphp
 @props(['mode' => CardMode::new->value, 'initial_id'])
-<div class="flex flex-col justify-between p-6 min-w-150 bg-blue-600/30 backdrop-blur-lg rounded-xl shadow-lg"
+<div class="flex flex-col justify-between m-6 p-6 min-w-150 bg-blue-600/30 backdrop-blur-lg rounded-xl shadow-lg"
     x-data="{
     mode: @js($mode),
     person: null,
@@ -67,53 +67,53 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <x-input-label for="name" value="Name"/>
-          <x-text-input id="name" name="name" type="text" x-bind:value="person ? person.name : defaults.name" 
+          <input id="name" name="name" type="text" x-bind:value="person ? person.name : defaults.name" 
                         x-bind:readonly="isReadMode" required autocomplete="name"
-                        class="mt-1 block w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"/>
+                        class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"/>
           <x-input-error :messages="$errors->get('name')"/>
         </div>
 
         <div>
           <x-input-label for="email" value="Email"/>
-          <x-text-input id="email" name="email" type="email" x-bind:value="person ? person.email : defaults.email" 
+          <input id="email" name="email" type="email" x-bind:value="person ? person.email : defaults.email" 
                         x-bind:readonly="isReadMode" required autocomplete="email"
-                        class="mt-1 block w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"/>
+                        class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"/>
           <x-input-error :messages="$errors->get('email')"/>
         </div>
 
         <div>
           <x-input-label for="phone" value="Phone"/>
-          <x-text-input id="phone" name="phone" type="text" x-bind:value="person ? person.phone : defaults.phone" 
+          <input id="phone" name="phone" type="text" x-bind:value="person ? person.phone : defaults.phone" 
                         x-bind:readonly="isReadMode" required autocomplete="tel"
-                        class="mt-1 block w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"/>
+                        class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"/>
           <x-input-error :messages="$errors->get('phone')"/>
         </div>
 
         <div>
           <x-input-label for="nationalno" value="National No"/>
-          <x-text-input id="nationalno" name="national_no" type="text" x-bind:value="person ? person.national_no : defaults.national_no" 
+          <input id="nationalno" name="national_no" type="text" x-bind:value="person ? person.national_no : defaults.national_no" 
                         x-bind:readonly="isReadMode" required
-                        class="mt-1 block w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"/>
+                        class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"/>
           <x-input-error :messages="$errors->get('national_no')"/>
         </div>
 
         <div>
           <x-input-label for="date" value="Date of Birth"/>
-          <x-text-input id="date" name="date_of_birth" type="date" 
+          <input id="date" name="date_of_birth" type="date" 
                         x-bind:readonly="isReadMode" autocomplete="bday"
-                        :max="now()->subYears(18)->format('Y-m-d')"
+                        :max="{{ now()->subYears(18)->format('Y-m-d') }}"
                         x-bind:value="person ? person.date_of_birth : defaults.date"
-                        class="mt-1 block w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"/>
+                        class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"/>
           <x-input-error :messages="$errors->get('date_of_birth')"/>
         </div>
 
         <!-- Gender (readonly) -->
         <div>
           <x-input-label for="gender" value="Gender"/>
-          <x-text-input id="gender" type="text" 
+          <input id="gender" type="text" 
                         x-show="isReadMode" readonly
                         x-bind:value="person?.gender"
-                        class="mt-1 block w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"/>
+                        class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"/>
         </div>
       </div>
 
@@ -122,7 +122,7 @@
         <div>
           <x-input-label for="address" value="Address"/>
           <textarea name="address" x-bind:readonly="isReadMode" x-model="person ? person.address : defaults.address" 
-                    class="w-full mt-1 rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20"></textarea>
+                    class="mt-1 block w-full bg-white/20 border-white/30 text-white placeholder-gray-300 focus:border-cyan-200 focus:ring-cyan-200 rounded-lg"></textarea>
           <x-input-error :messages="$errors->get('address')"/> 
         </div>
 
@@ -130,7 +130,7 @@
           <x-input-label for="country_id" value="Country"/>
           <select name="country_id" x-model="person ? person.country_id : defaults.countryId" 
                   x-bind:disabled="isReadMode"
-                  class="w-full rounded-md bg-gray-800 border border-gray-700 text-gray-100 p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20">
+                  class="w-full rounded-md bg-white/20 border-white/30 text-gray-100 p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-500/20">
             <option value="0" disabled selected>Select country</option>
             @foreach ($countries as $country)
               <option value="{{ $country['id'] }}">{{$country['name']}}</option>
@@ -152,10 +152,10 @@
 
     <!-- Image preview -->
     <div class="flex flex-col items-center justify-start gap-4">
-      <div class="w-48 h-48 bg-gray-800 rounded-lg overflow-hidden shadow-inner">
+      <div class="w-48 h-48 bg-white/20 border-white/30 rounded-lg overflow-hidden shadow-inner">
         <img x-bind:src="setImage" alt="Person Image" class="w-full h-full object-cover"/>
       </div>
-      <label for="f" class="mt-2 text-indigo-400 underline cursor-pointer" x-bind:hidden="isReadMode">Set Image</label>
+      <label for="f" class="mt-2 text-white underline cursor-pointer" x-bind:hidden="isReadMode">Set Image</label>
       <input id="f" type="file" name="file" form="form" hidden @change="handleImageUpload">
       <x-input-error :messages="$errors->get('file')" class="mt-1"/>
     </div>

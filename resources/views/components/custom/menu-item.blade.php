@@ -3,11 +3,11 @@
     'enableNamedRoutes' => true
 ])
 
-<li class="relative group">
-
+{{-- <li class="relative group"> --}}
+<li x-data="{ open: false }" class="relative">
     {{-- Item With Children --}}
     @if(isset($item['children']) && count($item['children']) > 0)
-        <div class="flex items-center justify-between w-full p-2 rounded cursor-pointer hover:bg-blue-700 hover:text-white transition-colors duration-200">
+        <div @click="open = !open" class="flex items-center justify-between w-full p-2 rounded cursor-pointer hover:bg-blue-700 hover:text-white transition-colors duration-200">
             {{ $item['label'] }}
 
             <svg class="w-3 h-3 ms-2"
@@ -22,7 +22,7 @@
             </svg>
         </div>
 
-        <ul class="absolute top-0 left-full ml-1 hidden group-hover:block bg-gray-900 border border-blue-500 rounded-base shadow-lg w-56 p-2 text-sm font-medium text-gray-200">
+        <ul @click.outside="open = false" x-show="open" x-transition class="absolute top-0 left-full ml-1 bg-gray-900 border border-blue-500 rounded-base shadow-lg w-56 p-2 text-sm font-medium text-gray-200">
 
             @foreach($item['children'] as $child)
                 <x-custom.menu-item :item="$child" :enableNamedRoutes="$enableNamedRoutes" />

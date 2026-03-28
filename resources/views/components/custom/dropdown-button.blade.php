@@ -8,7 +8,7 @@
 <div class="flex">
     <button id="{{ $dropdownDefaultButtonId }}"
             data-dropdown-toggle="{{ $dropdownId }}"
-            class="inline-flex items-center justify-center text-white bg-gray-800 hover:bg-blue-600 focus:bg-blue-600 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 transition-colors duration-200 m-1"
+            class="inline-flex items-center justify-center text-white bg-white/20 border-white/30 hover:bg-blue-600 focus:bg-blue-600 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 transition-colors duration-200 m-1"
             type="button">
         {{ $title }}
 
@@ -25,7 +25,7 @@
     </button>
 
     <div id="{{ $dropdownId }}"
-         class="z-10 hidden group-hover:block bg-gray-900 border border-blue-500 rounded-base shadow-lg w-56 transition-opacity duration-200">
+         class="z-10 hidden bg-gray-900 border border-blue-500 rounded-base shadow-lg w-56 transition-opacity duration-200">
 
         <ul class="p-2 text-sm text-gray-200 font-medium"
             aria-labelledby="{{ $dropdownDefaultButtonId }}">

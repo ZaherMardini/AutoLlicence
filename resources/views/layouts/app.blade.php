@@ -1,3 +1,4 @@
+@props(['enableBackground' => true])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -17,10 +18,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900"
-        style="background-image: url(/images/defaults/main.png)">
-            @include('layouts.navigation')
-
+      @if ($enableBackground)
+        
+      <div class="min-h-screen bg-gray-100 dark:bg-gray-900 -z-49"
+      style="background-image: url(/images/defaults/main.png); background-repeat: no-repeat; backgorud"
+      >
+      @else
+      <div class="min-h-screen bg-gray-100 dark:bg-gray-900 -z-49"
+      >
+      @endif
+      @include('layouts.navigation')
+      
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white dark:bg-gray-800 shadow">
@@ -32,6 +40,7 @@
 
             <!-- Page Content -->
             <main class="flex justify-center align-center">
+                <div id="overlay" class="absolute h-full inset-0 bg-linear-to-b from-transparent to-black -z-50"></div>
                 {{ $slot }}
             </main>
         </div>

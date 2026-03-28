@@ -10,7 +10,7 @@
     'completed' => 'text-green-400',
   ];
 @endphp
-<div class="min-h-screen bg-slate-950 text-slate-200 p-6 m-3 rounded-lg border border-blue-400">
+<div class="min-h-screen bg-blue-600/20 backdrop-blur-md text-slate-200 p-6 m-3 rounded-lg border border-blue-600">
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
         <div>
