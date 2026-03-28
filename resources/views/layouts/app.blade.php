@@ -20,7 +20,7 @@
     <body class="font-sans antialiased">
       @if ($enableBackground)
         
-      <div class="sticky min-h-screen bg-gray-100 dark:bg-gray-900 z-3"
+      <div class="bg-fixed sticky min-h-screen bg-gray-100 dark:bg-gray-900 z-3"
       style="background-image: url(/images/defaults/main.png); background-repeat: no-repeat; backgorud"
       >
       @else
@@ -30,7 +30,7 @@
       
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
+                <header class="bg-transparent shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -39,7 +39,7 @@
 
             <!-- Page Content -->
             <main class="flex justify-center align-center">
-                <div id="overlay" class="absolute h-full inset-0 bg-linear-to-b from-transparent to-black -z-50"></div>
+                <div id="overlay" class="absolute h-full inset-0 bg-linear-to-b from-transparent to-black/70 -z-50"></div>
                 {{ $slot }}
             </main>
         </div>
